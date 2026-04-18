@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 import { z } from 'zod'
 import { GeneratedQuestion } from '@/types'
-import { enrichTopics } from './exam-topics'
+import { enrichTopics, ExamTopic } from './exam-topics'
 
 export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
@@ -22,7 +22,7 @@ export function buildPrompt(
   examId: string,
   weakTopics: string[],
   askedTopics: string[] = [],
-  enrichedTopics?: ReturnType<typeof enrichTopics>
+  enrichedTopics?: ExamTopic[]
 ): string {
   const enriched = enrichedTopics ?? enrichTopics(examId, weakTopics)
 
