@@ -1,16 +1,21 @@
 'use client'
 
 import { useParams, useSearchParams, useRouter } from 'next/navigation'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { GeneratedQuestion, SessionAnswer, TopicStat } from '@/types'
 import QuestionCard from '@/components/exam/QuestionCard'
-import Timer from '@/components/exam/Timer'
 import ProgressBar from '@/components/exam/ProgressBar'
 import TopicBreakdown from '@/components/dashboard/TopicBreakdown'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 type Phase = 'loading' | 'question' | 'review' | 'result'
+
+function formatTime(secs: number): string {
+  const m = Math.floor(secs / 60).toString().padStart(2, '0')
+  const s = (secs % 60).toString().padStart(2, '0')
+  return `${m}:${s}`
+}
 
 export default function SessionPage() {
   const { examId } = useParams<{ examId: string }>()
@@ -29,19 +34,38 @@ export default function SessionPage() {
   const [score, setScore] = useState(0)
   const [topicStats, setTopicStats] = useState<TopicStat[]>([])
   const [error, setError] = useState('')
+  const [timeRemaining, setTimeRemaining] = useState(totalQ * 90)
+
+  // Global timer (not reset per question)
+  useEffect(() => {
+    if (phase === 'result' || timeRemaining <= 0) return
+    const timer = setInterval(() => {
+      setTimeRemaining((t) => {
+        if (t <= 1) {
+          handleExpire()
+          return 0
+        }
+        return t - 1
+      })
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [phase])
 
   // Buscar primeira questão ao montar
-  useState(() => { fetchQuestion() })
+  useEffect(() => {
+    fetchQuestion()
+  }, [])
 
   async function fetchQuestion() {
     setPhase('loading')
     setSelectedAnswer(undefined)
     setFlagged(false)
     try {
+      const askedTopics = answers.map((a) => a.topic_tag)
       const res = await fetch('/api/generate-question', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ examId, sessionId }),
+        body: JSON.stringify({ examId, sessionId, askedTopics }),
       })
       if (!res.ok) throw new Error('Falha ao gerar questão')
       const q: GeneratedQuestion = await res.json()
@@ -82,7 +106,7 @@ export default function SessionPage() {
   const handleExpire = useCallback(() => {
     if (answers.length > 0) submitResults(answers)
     else router.push('/dashboard')
-  }, [answers])
+  }, [answers, router])
 
   async function submitResults(finalAnswers: SessionAnswer[]) {
     setPhase('loading')
@@ -172,7 +196,12 @@ export default function SessionPage() {
             {examId}
           </span>
         </div>
-        <Timer totalSeconds={totalQ * 90} onExpire={handleExpire} />
+        <span
+          className="text-xl font-bold tabular-nums transition-colors"
+          style={{ color: timeRemaining < 60 ? '#ef4444' : 'var(--accent)' }}
+        >
+          {formatTime(timeRemaining)}
+        </span>
       </div>
 
       <ProgressBar current={questionIndex + 1} total={totalQ} />

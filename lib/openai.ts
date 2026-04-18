@@ -17,15 +17,20 @@ const QuestionSchema = z.object({
   topic_tag: z.string().min(2),
 })
 
-export function buildPrompt(examId: string, weakTopics: string[]): string {
+export function buildPrompt(examId: string, weakTopics: string[], askedTopics: string[] = []): string {
   const topicLine =
     weakTopics.length > 0
       ? `Priorize os seguintes tópicos (onde o usuário tem maior dificuldade): ${weakTopics.join(', ')}.`
       : 'Escolha um tópico relevante para o exame.'
 
-  return `Exame de certificação Microsoft: ${examId}. ${topicLine}
+  const avoidLine =
+    askedTopics.length > 0
+      ? `\n\nIMPORTANTE: Evite completamente os tópicos já perguntados: ${askedTopics.join(', ')}. Gere uma questão sobre um tópico diferente.`
+      : ''
 
-Gere UMA questão de múltipla escolha no estilo PearsonVue. A questão deve ser objetiva, técnica e ter exatamente 4 alternativas plausíveis, com apenas uma correta.
+  return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}
+
+Gere UMA questão de múltipla escolha no estilo PearsonVue. A questão deve ser objetiva, técnica, original e ter exatamente 4 alternativas plausíveis, com apenas uma correta.
 
 Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem texto extra):
 {
@@ -39,7 +44,8 @@ Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem 
 
 export async function generateQuestion(
   examId: string,
-  weakTopics: string[]
+  weakTopics: string[],
+  askedTopics: string[] = []
 ): Promise<GeneratedQuestion> {
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
@@ -48,11 +54,11 @@ export async function generateQuestion(
       {
         role: 'system',
         content:
-          'Você é um gerador de questões de certificação Microsoft no estilo PearsonVue. Retorne APENAS JSON válido, sem markdown.',
+          'Você é um gerador de questões de certificação Microsoft no estilo PearsonVue. Retorne APENAS JSON válido, sem markdown. Gere questões ORIGINAIS e VARIADAS.',
       },
-      { role: 'user', content: buildPrompt(examId, weakTopics) },
+      { role: 'user', content: buildPrompt(examId, weakTopics, askedTopics) },
     ],
-    temperature: 0.8,
+    temperature: 0.9,
   })
 
   const raw = completion.choices[0].message.content

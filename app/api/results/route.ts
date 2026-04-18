@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server-client'
 import { z } from 'zod'
 import { TopicStat } from '@/types'
@@ -51,6 +52,10 @@ export async function POST(request: NextRequest) {
     if (sessionError) throw sessionError
 
     const topicStats = computeTopicStats(answers)
+
+    // Invalidate dashboard cache to show updated progress
+    revalidatePath('/dashboard')
+    revalidatePath('/progress')
 
     return NextResponse.json({ score, topicStats })
   } catch (error) {
