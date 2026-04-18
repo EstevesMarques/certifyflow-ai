@@ -2,15 +2,26 @@
 
 import { useRouter, useParams } from 'next/navigation'
 import { useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/browser-client'
 import { STATIC_EXAMS } from '@/lib/catalog'
+import { EXAM_TOPICS } from '@/lib/exam-topics'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
-export default function ExamSetupPage() {
+const LEVEL_BADGE_VARIANT = {
+  Fundamentals: 'outline' as const,
+  Associate: 'secondary' as const,
+  Expert: 'destructive' as const,
+}
+
+export default function ExamDetailPage() {
   const { examId } = useParams<{ examId: string }>()
-  const exam = STATIC_EXAMS.find(e => e.id === examId)
+  const exam = STATIC_EXAMS.find((e) => e.id === examId)
   const examTitle = exam?.title ?? examId
+  const topics = EXAM_TOPICS[examId] ?? []
   const router = useRouter()
   const [totalQ, setTotalQ] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -40,7 +51,9 @@ export default function ExamSetupPage() {
         return
       }
 
-      router.push(`/exam/${examId}/session?sessionId=${session.id}&totalQ=${totalQ}&examTitle=${encodeURIComponent(examTitle)}`)
+      router.push(
+        `/exam/${examId}/session?sessionId=${session.id}&totalQ=${totalQ}&examTitle=${encodeURIComponent(examTitle)}`
+      )
     } catch (err) {
       console.error('Error starting exam:', err)
       setError('Erro ao iniciar simulado')
@@ -49,21 +62,81 @@ export default function ExamSetupPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-64px)] p-6">
-      <div className="w-full max-w-sm rounded-[10px] border p-6 space-y-5"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-        <div>
-          <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--accent)' }}>
-            {examId}
-          </div>
-          <h1 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-            {examTitle}
-          </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
-            O motor adaptativo priorizará seus tópicos mais fracos.
-          </p>
-        </div>
+    <div className="max-w-2xl mx-auto p-6 space-y-6">
+      {/* Back link */}
+      <Link
+        href="/catalog"
+        className="inline-flex items-center gap-1 text-sm transition-colors"
+        style={{ color: 'var(--accent)' }}
+      >
+        ← Voltar ao Catálogo
+      </Link>
 
+      {/* Header card */}
+      <div
+        className="rounded-[10px] border p-6 space-y-3"
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <div className="mb-2">
+              <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
+                {exam?.level ?? 'N/A'}
+              </Badge>
+            </div>
+            <h1 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+              {examTitle}
+            </h1>
+            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+              {exam?.description ?? 'Descrição não disponível.'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Topics section */}
+      {topics.length > 0 && (
+        <div
+          className="rounded-[10px] border p-6 space-y-3"
+          style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+        >
+          <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
+            Tópicos do Exame
+          </h2>
+          <div className="space-y-2">
+            {topics.map((section, i) => (
+              <details key={i} className="group">
+                <summary
+                  className="flex items-center justify-between cursor-pointer list-none text-sm font-medium p-2 rounded-md transition-colors hover:bg-[var(--bg-option)]"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  <span>{section.topic}</span>
+                  <span className="text-xs transition-transform group-open:rotate-180" style={{ color: 'var(--text-muted)' }}>
+                    ▼
+                  </span>
+                </summary>
+                <div className="flex flex-wrap gap-1.5 mt-2 pl-2">
+                  {section.subtopics.map((sub) => (
+                    <span
+                      key={sub}
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{ background: 'var(--bg-option)', color: 'var(--text-secondary)' }}
+                    >
+                      {sub}
+                    </span>
+                  ))}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Start section */}
+      <div
+        className="rounded-[10px] border p-6 space-y-5"
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+      >
         <div>
           <div className="text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
             Número de questões
@@ -76,8 +149,8 @@ export default function ExamSetupPage() {
                 className="flex-1 py-2 rounded-lg text-sm font-semibold border transition-all"
                 style={{
                   borderColor: totalQ === q ? 'var(--accent)' : 'var(--border)',
-                  background: totalQ === q ? 'var(--bg-option-selected)' : 'transparent',
-                  color: totalQ === q ? 'var(--accent)' : 'var(--text-muted)',
+                  background: totalQ === q ? 'var(--accent)' : 'transparent',
+                  color: totalQ === q ? '#fff' : 'var(--text-primary)',
                 }}
               >
                 {q}
@@ -87,19 +160,19 @@ export default function ExamSetupPage() {
         </div>
 
         {error && (
-          <div className="p-3 rounded text-sm" style={{ background: '#fee2e2', color: '#991b1b' }}>
+          <p className="text-sm text-center" style={{ color: 'var(--accent)' }}>
             {error}
-          </div>
+          </p>
         )}
 
-        <button
+        <Button
           onClick={startExam}
           disabled={loading}
-          className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all disabled:opacity-50"
-          style={{ background: 'var(--accent)' }}
+          className="w-full"
+          style={{ background: 'var(--accent)', color: '#fff' }}
         >
-          {loading ? 'Iniciando…' : 'Iniciar Simulado →'}
-        </button>
+          {loading ? 'Criando sessão...' : 'Start Exam'}
+        </Button>
       </div>
     </div>
   )
