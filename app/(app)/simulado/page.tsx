@@ -7,21 +7,21 @@ const levelColor: Record<string, Record<string, string>> = {
   Expert: { bg: '#f3e8ff', text: '#6b21a8' },
 }
 
-export default async function CatalogPage() {
+export default async function SimuladoPage() {
   const exams = await fetchExams()
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Catálogo de Exames</h1>
+      <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Iniciar Simulado</h1>
       <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
-        Escolha um exame para iniciar um simulado adaptativo.
+        Escolha um exame para começar um simulado adaptativo.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {exams.map((exam) => (
           <Link key={exam.id} href={`/exam/${exam.id}`}>
             <div
-              className="rounded-xl p-4 border h-full flex flex-col gap-2 hover:border-[#0078d4] transition-colors cursor-pointer"
+              className="rounded-[10px] p-4 border h-full flex flex-col gap-2 hover:border-[#0078d4] transition-colors cursor-pointer"
               style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
             >
               <div className="flex items-start justify-between gap-2">

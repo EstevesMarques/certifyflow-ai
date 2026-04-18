@@ -24,7 +24,9 @@
       "Bash(git clone *)",
       "Bash(taskkill /PID 368 /F)",
       "Bash(pkill -f \"next dev\")",
-      "Bash(netstat -ano)"
+      "Bash(netstat -ano)",
+      "Bash(curl -s http://localhost:3000/dashboard)",
+      "Bash(awk '{print $NF}')"
     ]
   },
   "enableAllProjectMcpServers": true,

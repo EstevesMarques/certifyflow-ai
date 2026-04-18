@@ -9,7 +9,7 @@ export default function Sidebar() {
   const navItems = [
     { icon: '⊞', label: 'Dashboard', href: '/dashboard' },
     { icon: '📋', label: 'Catálogo', href: '/catalog' },
-    { icon: '▶', label: 'Simulado', href: '/exam' },
+    { icon: '▶', label: 'Simulado', href: '/simulado' },
     { icon: '📈', label: 'Progresso', href: '/progress' },
     { icon: '⚙', label: 'Configurações', href: '/settings' },
   ]
