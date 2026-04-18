@@ -8,6 +8,7 @@ import { STATIC_EXAMS } from '@/lib/catalog'
 import { EXAM_TOPICS } from '@/lib/exam-topics'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { CheckCircle2 } from 'lucide-react'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
@@ -109,15 +110,14 @@ export default function ExamDetailPage() {
                 <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
                   {section.topic}
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-col gap-2 pl-1">
                   {section.subtopics.map((sub) => (
-                    <span
-                      key={sub}
-                      className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ background: 'var(--bg-option)', color: 'var(--text-secondary)' }}
-                    >
-                      {sub}
-                    </span>
+                    <div key={sub} className="flex items-center gap-2">
+                      <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} />
+                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        {sub}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
