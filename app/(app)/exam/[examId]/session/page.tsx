@@ -24,6 +24,7 @@ export default function SessionPage() {
 
   const sessionId = searchParams.get('sessionId') ?? ''
   const totalQ = Number(searchParams.get('totalQ') ?? '20')
+  const examTitle = searchParams.get('examTitle') ?? examId
 
   const [phase, setPhase] = useState<Phase>('loading')
   const [current, setCurrent] = useState<GeneratedQuestion | null>(null)
@@ -31,7 +32,6 @@ export default function SessionPage() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>()
   const [answers, setAnswers] = useState<SessionAnswer[]>([])
   const [flagged, setFlagged] = useState(false)
-  const [score, setScore] = useState(0)
   const [topicStats, setTopicStats] = useState<TopicStat[]>([])
   const [error, setError] = useState('')
   const [resultData, setResultData] = useState<{ score: number; topicStats: TopicStat[] } | null>(null)
@@ -140,20 +140,20 @@ export default function SessionPage() {
             </div>
             <div className="inline-block mt-3 px-4 py-1 rounded-full text-sm font-semibold text-white"
               style={{ background: 'rgba(255,255,255,0.2)' }}>
-              {passed ? '✓ Aprovado' : '⚠ Abaixo do mínimo (70%)'}
+              {passed ? '✓ Aprovado' : `⚠ Abaixo do mínimo (passing score: 700/1000)`}
             </div>
           </div>
           <div className="p-5 space-y-4">
             {resultData.topicStats.length > 0 && (
-              <TopicBreakdown stats={resultData.topicStats} title="Desempenho por área" />
+              <TopicBreakdown stats={resultData.topicStats} title="Áreas para melhoria" />
             )}
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => router.push(`/exam/${examId}`)}>
                 Refazer
               </Button>
-              <Button className="flex-1" style={{ background: 'var(--accent)' }} asChild>
-                <Link href="/dashboard">Ver dashboard</Link>
-              </Button>
+              <Link href="/dashboard" className="flex-1">
+                <Button className="w-full" style={{ background: 'var(--accent)' }}>Ver dashboard</Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -161,39 +161,19 @@ export default function SessionPage() {
     )
   }
 
-  // --- LOADING ---
-  if (phase === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-sm animate-pulse" style={{ color: 'var(--text-muted)' }}>
-          {questionIndex === 0 ? 'Preparando simulado…' : 'Gerando próxima questão…'}
-        </div>
-      </div>
-    )
-  }
-
-  // --- ERROR ---
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="text-center space-y-3">
-          <p className="text-sm text-red-500">{error}</p>
-          <Button onClick={fetchQuestion} style={{ background: 'var(--accent)' }}>Tentar novamente</Button>
-        </div>
-      </div>
-    )
-  }
-
-  // --- QUESTION / REVIEW ---
+  // Always render topbar + progress bar
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-page)' }}>
-      {/* Topbar */}
-      <div className="border-b px-5 py-3 flex items-center justify-between"
+      {/* Topbar — always visible */}
+      <div className="border-b px-5 py-3 flex items-center justify-between shrink-0"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
         <div className="flex items-center gap-2.5">
           <span className="text-[11px] font-bold px-2 py-0.5 rounded text-white"
             style={{ background: 'var(--accent)' }}>
             {examId}
+          </span>
+          <span className="text-[13px] font-medium" style={{ color: 'var(--text-secondary)' }}>
+            {decodeURIComponent(examTitle)}
           </span>
         </div>
         <span
@@ -206,44 +186,67 @@ export default function SessionPage() {
 
       <ProgressBar current={questionIndex + 1} total={totalQ} />
 
-      {/* Question area */}
-      <div className="flex-1 p-5 max-w-2xl mx-auto w-full">
-        <div className="text-[11px] font-semibold mb-3 uppercase tracking-wider"
-          style={{ color: 'var(--text-faint)' }}>
-          QUESTÃO {questionIndex + 1}
-        </div>
-
-        {current && (
-          <QuestionCard
-            question={current}
-            selectedAnswer={selectedAnswer}
-            onAnswer={onAnswer}
-            disabled={phase === 'review'}
-            showCorrect={phase === 'review'}
-          />
-        )}
-
-        {/* Review: explanation + next */}
-        {phase === 'review' && current && (
-          <div className="mt-4 space-y-3">
-            <div className="rounded-lg p-3.5 border text-sm"
-              style={{ background: 'var(--bg-option)', borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
-              <strong style={{ color: 'var(--text-primary)' }}>Explicação: </strong>
-              {current.explanation}
-            </div>
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setFlagged((f) => !f)}
-                className="text-xs transition-colors"
-                style={{ color: flagged ? '#f59e0b' : 'var(--text-muted)' }}
-              >
-                {flagged ? '⚑ Marcado' : '⚑ Marcar para revisão'}
-              </button>
-              <Button onClick={nextQuestion} style={{ background: 'var(--accent)' }}>
-                {questionIndex + 1 >= totalQ ? 'Ver resultado →' : 'Próxima →'}
-              </Button>
+      {/* Question area — full width */}
+      <div className="flex-1 p-5 w-full">
+        {/* Loading skeleton */}
+        {phase === 'loading' && (
+          <div className="space-y-4 animate-pulse">
+            <div className="h-4 w-32 rounded" style={{ background: 'var(--bg-option)' }} />
+            <div className="space-y-2">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="h-14 rounded-lg" style={{ background: 'var(--bg-option)' }} />
+              ))}
             </div>
           </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div className="text-center space-y-3 py-12">
+            <p className="text-sm text-red-500">{error}</p>
+            <Button onClick={fetchQuestion} style={{ background: 'var(--accent)' }}>Tentar novamente</Button>
+          </div>
+        )}
+
+        {/* Question content */}
+        {phase !== 'loading' && !error && current && (
+          <>
+            <div className="text-[11px] font-semibold mb-3 uppercase tracking-wider"
+              style={{ color: 'var(--text-faint)' }}>
+              QUESTÃO {questionIndex + 1}
+            </div>
+
+            <QuestionCard
+              question={current}
+              selectedAnswer={selectedAnswer}
+              onAnswer={onAnswer}
+              disabled={phase === 'review'}
+              showCorrect={phase === 'review'}
+            />
+
+            {/* Review: explanation + next */}
+            {phase === 'review' && (
+              <div className="mt-4 space-y-3">
+                <div className="rounded-lg p-3.5 border text-sm"
+                  style={{ background: 'var(--bg-option)', borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Explicação: </strong>
+                  {current.explanation}
+                </div>
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => setFlagged((f) => !f)}
+                    className="text-xs transition-colors"
+                    style={{ color: flagged ? '#f59e0b' : 'var(--text-muted)' }}
+                  >
+                    {flagged ? '⚑ Marcado' : '⚑ Marcar para revisão'}
+                  </button>
+                  <Button onClick={nextQuestion} style={{ background: 'var(--accent)' }}>
+                    {questionIndex + 1 >= totalQ ? 'Ver resultado →' : 'Próxima →'}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

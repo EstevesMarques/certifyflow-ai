@@ -3,11 +3,14 @@
 import { useRouter, useParams } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/browser-client'
+import { STATIC_EXAMS } from '@/lib/catalog'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
 export default function ExamSetupPage() {
   const { examId } = useParams<{ examId: string }>()
+  const exam = STATIC_EXAMS.find(e => e.id === examId)
+  const examTitle = exam?.title ?? examId
   const router = useRouter()
   const [totalQ, setTotalQ] = useState(20)
   const [loading, setLoading] = useState(false)
@@ -37,7 +40,7 @@ export default function ExamSetupPage() {
         return
       }
 
-      router.push(`/exam/${examId}/session?sessionId=${session.id}&totalQ=${totalQ}`)
+      router.push(`/exam/${examId}/session?sessionId=${session.id}&totalQ=${totalQ}&examTitle=${encodeURIComponent(examTitle)}`)
     } catch (err) {
       console.error('Error starting exam:', err)
       setError('Erro ao iniciar simulado')
@@ -54,7 +57,7 @@ export default function ExamSetupPage() {
             {examId}
           </div>
           <h1 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-            Configurar Simulado
+            {examTitle}
           </h1>
           <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
             O motor adaptativo priorizará seus tópicos mais fracos.
