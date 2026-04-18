@@ -2,23 +2,39 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import {
+  HomeIcon,
+  ClipboardDocumentListIcon,
+  PlayCircleIcon,
+  ChartBarIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline'
+import {
+  HomeIcon as HomeIconSolid,
+  ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
+  PlayCircleIcon as PlayCircleIconSolid,
+  ChartBarIcon as ChartBarIconSolid,
+  Cog6ToothIcon as Cog6ToothIconSolid,
+} from '@heroicons/react/24/solid'
 
 export default function Sidebar() {
   const pathname = usePathname()
 
   const navItems = [
-    { icon: '⊞', label: 'Dashboard', href: '/dashboard' },
-    { icon: '📋', label: 'Catálogo', href: '/catalog' },
-    { icon: '▶', label: 'Simulado', href: '/simulado' },
-    { icon: '📈', label: 'Progresso', href: '/progress' },
-    { icon: '⚙', label: 'Configurações', href: '/settings' },
+    { label: 'Dashboard', href: '/dashboard', Icon: HomeIcon, ActiveIcon: HomeIconSolid },
+    { label: 'Catálogo', href: '/catalog', Icon: ClipboardDocumentListIcon, ActiveIcon: ClipboardDocumentListIconSolid },
+    { label: 'Simulado', href: '/simulado', Icon: PlayCircleIcon, ActiveIcon: PlayCircleIconSolid },
+    { label: 'Progresso', href: '/progress', Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
+    { label: 'Configurações', href: '/settings', Icon: Cog6ToothIcon, ActiveIcon: Cog6ToothIconSolid },
   ]
 
   return (
-    <aside className="w-[220px] flex-shrink-0 bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-0 flex flex-col transition-all">
-      <div className="border-b border-[var(--border)] px-5 py-5 mb-3">
-        <div className="text-sm font-[800] text-[var(--accent)] tracking-tight">CertifyFlow</div>
-        <div className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider">AI · Microsoft Certs</div>
+    <aside className="w-[220px] h-full flex-shrink-0 bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-0 flex flex-col transition-all">
+      <div className="border-b border-[var(--border)] px-6 h-14 flex items-center">
+        <div>
+          <div className="text-sm font-[800] text-[var(--accent)] tracking-tight">CertifyFlow</div>
+          <div className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider">AI · Microsoft Certs</div>
+        </div>
       </div>
 
       <nav className="flex-1">
@@ -34,7 +50,10 @@ export default function Sidebar() {
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]'
               }`}
             >
-              <span className="text-base w-4.5 text-center">{item.icon}</span>
+              {isActive
+                ? <item.ActiveIcon className="w-4 h-4" />
+                : <item.Icon className="w-4 h-4" />
+              }
               {item.label}
             </Link>
           )

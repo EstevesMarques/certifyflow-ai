@@ -7,8 +7,6 @@ import HistoryTable from '@/components/dashboard/HistoryTable'
 import CTABanner from '@/components/dashboard/CTABanner'
 import { TopicStat } from '@/types'
 
-import ThemeToggle from '@/components/ThemeToggle'
-
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -54,13 +52,8 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <div className="flex-shrink-0 bg-[var(--bg-card)] border-b border-[var(--border)] px-6 py-3.5 flex items-center justify-between">
-        <h1 className="text-base font-bold text-[var(--text-primary)]">Dashboard</h1>
-        <ThemeToggle />
-      </div>
-
       <div className="flex-1 overflow-auto">
-        <div className="p-6 max-w-6xl mx-auto space-y-5">
+        <div className="p-4 lg:p-6 space-y-5">
           {totalSims > 0 && (
             <CTABanner
               examId={lastExamId}
@@ -69,7 +62,7 @@ export default async function DashboardPage() {
             />
           )}
 
-          <div className="grid grid-cols-4 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             <StatCard label="Simulados feitos" value={totalSims} sub="+3 esta semana" />
             <StatCard label="Média geral" value={`${avgScore}%`} accent sub="↑ 6pp vs semana passada" />
             <StatCard label="Questões respondidas" value={totalAttempts} sub={`${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}% de acerto`} />
@@ -81,7 +74,7 @@ export default async function DashboardPage() {
           </div>
 
           {chartData.length > 0 && (
-            <div className="grid grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
               <PerformanceChart data={chartData} title="Evolução de scores — AZ-104" />
               <TopicBreakdown stats={topicStats.slice(0, 5)} title="Desempenho por tópico" />
             </div>

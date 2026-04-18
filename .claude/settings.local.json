@@ -27,7 +27,9 @@
       "Bash(netstat -ano)",
       "Bash(curl -s http://localhost:3000/dashboard)",
       "Bash(awk '{print $NF}')",
-      "mcp__plugin_context-mode_context-mode__ctx_execute_file"
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__claude_ai_Supabase__execute_sql",
+      "Bash(curl -s \"https://learn.microsoft.com/api/catalog/?type=examinations\")"
     ]
   },
   "enableAllProjectMcpServers": true,

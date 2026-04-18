@@ -11,7 +11,7 @@ export default async function SimuladoPage() {
   const exams = await fetchExams()
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 lg:p-6">
       <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Iniciar Simulado</h1>
       <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
         Escolha um exame para começar um simulado adaptativo.

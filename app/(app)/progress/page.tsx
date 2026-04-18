@@ -47,6 +47,8 @@ export default function ProgressPage() {
         const topicList = Object.entries(stats)
           .map(([tag, { correct, total }]) => ({
             topic_tag: tag,
+            total,
+            correct,
             pct: Math.round((correct / total) * 100),
           }))
           .sort((a, b) => a.pct - b.pct)
@@ -69,7 +71,7 @@ export default function ProgressPage() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-4 lg:p-6">
       <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Meu Progresso</h1>
       <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
         Acompanhe seu desempenho em cada tópico e simulado realizado.

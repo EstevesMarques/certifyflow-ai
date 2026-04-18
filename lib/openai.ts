@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { z } from 'zod'
 import { GeneratedQuestion } from '@/types'
+import { enrichTopics } from './exam-topics'
 
 export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
@@ -17,7 +18,14 @@ const QuestionSchema = z.object({
   topic_tag: z.string().min(2),
 })
 
-export function buildPrompt(examId: string, weakTopics: string[], askedTopics: string[] = []): string {
+export function buildPrompt(
+  examId: string,
+  weakTopics: string[],
+  askedTopics: string[] = [],
+  enrichedTopics?: ReturnType<typeof enrichTopics>
+): string {
+  const enriched = enrichedTopics ?? enrichTopics(examId, weakTopics)
+
   const topicLine =
     weakTopics.length > 0
       ? `Priorize os seguintes tópicos (onde o usuário tem maior dificuldade): ${weakTopics.join(', ')}.`
@@ -28,9 +36,21 @@ export function buildPrompt(examId: string, weakTopics: string[], askedTopics: s
       ? `\n\nIMPORTANTE: Evite completamente os tópicos já perguntados: ${askedTopics.join(', ')}. Gere uma questão sobre um tópico diferente.`
       : ''
 
-  return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}
+  const structuredContext =
+    enriched.length > 0
+      ? `\n\nContexto estruturado do exame:\n${JSON.stringify(enriched, null, 2)}`
+      : ''
+
+  return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}${structuredContext}
 
 Gere UMA questão de múltipla escolha no estilo PearsonVue. A questão deve ser objetiva, técnica, original e ter exatamente 4 alternativas plausíveis, com apenas uma correta.
+
+Instruções:
+- Gere a questão respeitando o contexto estruturado fornecido
+- Foque nos subtópicos listados quando aplicável
+- 4 alternativas (A, B, C, D), apenas uma correta
+- Inclua explicação clara e objetiva
+- O topic_tag deve refletir o tópico específico da questão
 
 Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem texto extra):
 {
@@ -47,6 +67,7 @@ export async function generateQuestion(
   weakTopics: string[],
   askedTopics: string[] = []
 ): Promise<GeneratedQuestion> {
+  const enriched = enrichTopics(examId, weakTopics)
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
     response_format: { type: 'json_object' },
@@ -56,7 +77,7 @@ export async function generateQuestion(
         content:
           'Você é um gerador de questões de certificação Microsoft no estilo PearsonVue. Retorne APENAS JSON válido, sem markdown. Gere questões ORIGINAIS e VARIADAS.',
       },
-      { role: 'user', content: buildPrompt(examId, weakTopics, askedTopics) },
+      { role: 'user', content: buildPrompt(examId, weakTopics, askedTopics, enriched) },
     ],
     temperature: 0.9,
   })
