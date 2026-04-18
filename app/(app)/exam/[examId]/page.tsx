@@ -128,11 +128,11 @@ export default function ExamDetailPage() {
 
       {/* Start section */}
       <div
-        className="rounded-[10px] border p-6 space-y-5"
+        className="rounded-2xl shadow-sm border p-6 space-y-5"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
         <div>
-          <div className="text-xs font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>
+          <div className="text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
             Número de questões
           </div>
           <div className="flex gap-2">
@@ -140,7 +140,7 @@ export default function ExamDetailPage() {
               <button
                 key={q}
                 onClick={() => setTotalQ(q)}
-                className="flex-1 py-2 rounded-lg text-sm font-semibold border transition-all"
+                className="flex-1 h-11 rounded-xl text-sm font-semibold border transition-all"
                 style={{
                   borderColor: totalQ === q ? 'var(--accent)' : 'var(--border)',
                   background: totalQ === q ? 'var(--accent)' : 'transparent',
@@ -162,10 +162,10 @@ export default function ExamDetailPage() {
         <Button
           onClick={startExam}
           disabled={loading}
-          className="w-full"
+          className="w-full h-12 text-base font-semibold"
           style={{ background: 'var(--accent)', color: '#fff' }}
         >
-          {loading ? 'Criando sessão...' : 'Start Exam'}
+          {loading ? 'Criando sessão...' : 'Iniciar Simulado'}
         </Button>
       </div>
     </div>
