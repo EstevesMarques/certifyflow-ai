@@ -8,16 +8,16 @@ interface StatCardProps {
 export default function StatCard({ label, value, sub, accent }: StatCardProps) {
   return (
     <div
-      className="rounded-xl p-4 border"
-      style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+      className="rounded-[10px] border"
+      style={{ background: 'var(--bg-card)', borderColor: 'var(--border)', padding: '16px 18px', boxShadow: 'var(--shadow)' }}
     >
-      <div className="text-[11px] font-semibold uppercase tracking-wider mb-1.5"
+      <div className="text-[11px] font-bold uppercase tracking-wider mb-1.5"
         style={{ color: 'var(--text-muted)' }}>
         {label}
       </div>
       <div
-        className="text-2xl font-extrabold leading-none"
-        style={{ color: accent ? 'var(--accent)' : 'var(--text-primary)' }}
+        className="leading-none"
+        style={{ fontSize: '26px', fontWeight: '800', color: accent ? 'var(--accent)' : 'var(--text-primary)' }}
       >
         {value}
       </div>

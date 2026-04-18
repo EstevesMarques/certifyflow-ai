@@ -3,37 +3,42 @@
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [isDark, setIsDark] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const stored = (localStorage.getItem('theme') ?? 'light') as 'light' | 'dark'
-    setTheme(stored)
+    setMounted(true)
+    const theme = document.documentElement.getAttribute('data-theme')
+    setIsDark(theme === 'dark')
   }, [])
 
-  function toggle() {
-    const next = theme === 'light' ? 'dark' : 'light'
-    setTheme(next)
-    localStorage.setItem('theme', next)
-    document.documentElement.setAttribute('data-theme', next)
+  const toggleTheme = () => {
+    const html = document.documentElement
+    const isDarkNow = html.getAttribute('data-theme') === 'dark'
+    html.setAttribute('data-theme', isDarkNow ? 'light' : 'dark')
+    setIsDark(!isDarkNow)
+    localStorage.setItem('theme', isDarkNow ? 'light' : 'dark')
   }
 
+  if (!mounted) return null
+
   return (
-    <button
-      onClick={toggle}
-      aria-label="Alternar tema"
-      className="flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-    >
-      <span>{theme === 'light' ? '☀' : '☾'}</span>
-      <span className="hidden sm:inline">{theme === 'light' ? 'Claro' : 'Escuro'}</span>
-      <div
-        className="relative w-10 h-5 rounded-full transition-colors"
-        style={{ background: theme === 'dark' ? 'var(--accent)' : 'var(--progress-bg)' }}
+    <div className="flex items-center gap-3">
+      <span className="text-xs text-[var(--text-muted)]">
+        {isDark ? '☾ Escuro' : '☀ Claro'}
+      </span>
+      <button
+        onClick={toggleTheme}
+        className="w-10 h-5.5 rounded-full bg-[var(--toggle-bg)] relative cursor-pointer border-none transition-all"
+        aria-label="Alternar tema"
       >
-        <div
-          className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform"
-          style={{ left: theme === 'dark' ? '22px' : '2px' }}
+        <span
+          className="absolute top-0.75 left-0.75 w-4 h-4 rounded-full bg-white transition-transform shadow-sm"
+          style={{
+            transform: isDark ? 'translateX(20px)' : 'translateX(0)',
+          }}
         />
-      </div>
-    </button>
+      </button>
+    </div>
   )
 }

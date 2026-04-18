@@ -7,6 +7,8 @@ import HistoryTable from '@/components/dashboard/HistoryTable'
 import CTABanner from '@/components/dashboard/CTABanner'
 import { TopicStat } from '@/types'
 
+import ThemeToggle from '@/components/ThemeToggle'
+
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -46,42 +48,50 @@ export default async function DashboardPage() {
   const correctAttempts = attempts?.filter((a) => a.is_correct).length ?? 0
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-5">
-      <h1 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Dashboard</h1>
-
-      {totalSims > 0 && (
-        <CTABanner
-          examId={lastExamId}
-          examTitle={lastExamId}
-          weakTopics={weakTopics}
-        />
-      )}
-
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <StatCard label="Simulados" value={totalSims} sub="realizados" />
-        <StatCard label="Média geral" value={`${avgScore}%`} accent sub="de acerto" />
-        <StatCard label="Questões" value={totalAttempts} sub={`${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}% corretas`} />
-        <StatCard
-          label="Melhor exame"
-          value={allSessions.length > 0 ? allSessions.reduce((a, b) => a.score > b.score ? a : b).exam_id : '—'}
-        />
+    <>
+      <div className="flex-shrink-0 bg-[var(--bg-card)] border-b border-[var(--border)] px-6 py-3.5 flex items-center justify-between">
+        <h1 className="text-base font-bold text-[var(--text-primary)]">Dashboard</h1>
+        <ThemeToggle />
       </div>
 
-      {chartData.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <PerformanceChart data={chartData} title="Evolução de scores" />
-          <TopicBreakdown stats={topicStats.slice(0, 5)} title="Desempenho por tópico" />
-        </div>
-      )}
+      <div className="flex-1 overflow-auto">
+        <div className="p-6 max-w-6xl mx-auto space-y-5">
+          {totalSims > 0 && (
+            <CTABanner
+              examId={lastExamId}
+              examTitle={lastExamId}
+              weakTopics={weakTopics}
+            />
+          )}
 
-      <div className="rounded-xl p-4 border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-        <div className="text-[11px] font-bold uppercase tracking-wider mb-3"
-          style={{ color: 'var(--text-secondary)' }}>
-          Histórico de simulados
+          <div className="grid grid-cols-4 gap-3.5">
+            <StatCard label="Simulados feitos" value={totalSims} sub="+3 esta semana" />
+            <StatCard label="Média geral" value={`${avgScore}%`} accent sub="↑ 6pp vs semana passada" />
+            <StatCard label="Questões respondidas" value={totalAttempts} sub={`${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}% de acerto`} />
+            <StatCard
+              label="Melhor exame"
+              value={allSessions.length > 0 ? allSessions.reduce((a, b) => a.score > b.score ? a : b).exam_id : '—'}
+              sub={allSessions.length > 0 ? `Score: ${allSessions.reduce((a, b) => a.score > b.score ? a : b).score}%` : ''}
+            />
+          </div>
+
+          {chartData.length > 0 && (
+            <div className="grid grid-cols-2 gap-3.5">
+              <PerformanceChart data={chartData} title="Evolução de scores — AZ-104" />
+              <TopicBreakdown stats={topicStats.slice(0, 5)} title="Desempenho por tópico" />
+            </div>
+          )}
+
+          <div className="rounded-[10px] p-4.5 border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
+            <div className="text-[10px] font-bold uppercase tracking-wider mb-3.5"
+              style={{ color: 'var(--text-faint)' }}>
+              Histórico de simulados
+            </div>
+            <HistoryTable sessions={allSessions} />
+          </div>
         </div>
-        <HistoryTable sessions={allSessions} />
       </div>
-    </div>
+    </>
   )
 }
 

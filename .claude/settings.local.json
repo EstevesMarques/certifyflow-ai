@@ -11,7 +11,24 @@
       "mcp__plugin_context-mode_context-mode__ctx_execute",
       "Bash(npm install *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "mcp__claude_ai_Supabase__list_projects",
+      "mcp__claude_ai_Supabase__list_tables",
+      "mcp__claude_ai_Supabase__list_migrations",
+      "mcp__claude_ai_Supabase__list_extensions",
+      "mcp__claude_ai_Supabase__get_publishable_keys",
+      "mcp__claude_ai_Supabase__apply_migration",
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "Bash(npx shadcn-ui@latest *)",
+      "Bash(npx shadcn@latest *)",
+      "Bash(git clone *)",
+      "Bash(taskkill /PID 368 /F)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(netstat -ano)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
 }

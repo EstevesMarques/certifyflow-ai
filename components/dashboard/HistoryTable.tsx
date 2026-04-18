@@ -1,5 +1,4 @@
 import { ExamSession } from '@/types'
-import { Badge } from '@/components/ui/badge'
 
 export default function HistoryTable({ sessions }: { sessions: (ExamSession & { exam_id: string })[] }) {
   if (sessions.length === 0) {
@@ -11,12 +10,12 @@ export default function HistoryTable({ sessions }: { sessions: (ExamSession & { 
   }
 
   return (
-    <table className="w-full text-xs">
+    <table className="w-full">
       <thead>
         <tr>
           {['Exame', 'Data', 'Score', 'Questões', 'Status'].map((h) => (
-            <th key={h} className="text-left pb-2 font-semibold uppercase tracking-wider text-[10px]"
-              style={{ color: 'var(--text-faint)' }}>
+            <th key={h} className="text-left pb-2.5 font-bold uppercase tracking-wider"
+              style={{ fontSize: '10px', color: 'var(--text-faint)' }}>
               {h}
             </th>
           ))}
@@ -25,22 +24,26 @@ export default function HistoryTable({ sessions }: { sessions: (ExamSession & { 
       <tbody>
         {sessions.map((s) => (
           <tr key={s.id} className="border-t" style={{ borderColor: 'var(--border)' }}>
-            <td className="py-2" style={{ color: 'var(--text-secondary)' }}>{s.exam_id}</td>
-            <td className="py-2" style={{ color: 'var(--text-secondary)' }}>
+            <td className="py-2" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{s.exam_id}</td>
+            <td className="py-2" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
               {new Date(s.completed_at ?? s.started_at).toLocaleDateString('pt-BR')}
             </td>
-            <td className="py-2 font-bold" style={{ color: 'var(--text-primary)' }}>{s.score}%</td>
-            <td className="py-2" style={{ color: 'var(--text-secondary)' }}>{s.total_q}</td>
+            <td className="py-2 font-bold" style={{ fontSize: '12px', color: 'var(--text-primary)' }}>{s.score}%</td>
+            <td className="py-2" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{s.total_q}</td>
             <td className="py-2">
-              {s.score >= 70 ? (
-                <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                  Aprovado
-                </Badge>
-              ) : (
-                <Badge className="bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300">
-                  Reprovado
-                </Badge>
-              )}
+              <span
+                style={{
+                  display: 'inline-block',
+                  fontSize: '10px',
+                  fontWeight: '700',
+                  padding: '2px 8px',
+                  borderRadius: '20px',
+                  background: s.score >= 70 ? '#d1fae5' : '#fee2e2',
+                  color: s.score >= 70 ? '#065f46' : '#991b1b',
+                }}
+              >
+                {s.score >= 70 ? 'Aprovado' : 'Reprovado'}
+              </span>
             </td>
           </tr>
         ))}

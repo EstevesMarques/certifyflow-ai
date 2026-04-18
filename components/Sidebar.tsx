@@ -1,84 +1,54 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import ThemeToggle from './ThemeToggle'
-import { createClient } from '@/lib/supabase/browser-client'
+import { usePathname } from 'next/navigation'
 
-const NAV = [
-  { href: '/dashboard', label: 'Dashboard', icon: '⊞' },
-  { href: '/catalog', label: 'Catálogo', icon: '📋' },
-]
-
-export default function Sidebar({ userEmail }: { userEmail: string }) {
+export default function Sidebar() {
   const pathname = usePathname()
-  const router = useRouter()
 
-  async function signOut() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/login')
-  }
-
-  const initials = userEmail.slice(0, 2).toUpperCase()
+  const navItems = [
+    { icon: '⊞', label: 'Dashboard', href: '/dashboard' },
+    { icon: '📋', label: 'Catálogo', href: '/catalog' },
+    { icon: '▶', label: 'Simulado', href: '/exam' },
+    { icon: '📈', label: 'Progresso', href: '/progress' },
+    { icon: '⚙', label: 'Configurações', href: '/settings' },
+  ]
 
   return (
-    <aside
-      className="w-[220px] flex-shrink-0 flex flex-col border-r"
-      style={{ background: 'var(--sidebar-bg)', borderColor: 'var(--border)' }}
-    >
-      {/* Logo */}
-      <div className="px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
-        <div className="font-extrabold text-base tracking-tight" style={{ color: 'var(--accent)' }}>
-          CertifyFlow
-        </div>
-        <div className="text-[10px] uppercase tracking-widest mt-0.5" style={{ color: 'var(--text-faint)' }}>
-          AI · Microsoft Certs
-        </div>
+    <aside className="w-[220px] flex-shrink-0 bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-0 flex flex-col transition-all">
+      <div className="border-b border-[var(--border)] px-5 py-5 mb-3">
+        <div className="text-sm font-[800] text-[var(--accent)] tracking-tight">CertifyFlow</div>
+        <div className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider">AI · Microsoft Certs</div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 py-3">
-        {NAV.map(({ href, label, icon }) => {
-          const active = pathname === href || pathname.startsWith(href + '/')
+      <nav className="flex-1">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href
           return (
             <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium transition-colors"
-              style={{
-                color: active ? 'var(--accent)' : 'var(--text-muted)',
-                background: active ? 'color-mix(in srgb, var(--accent) 8%, transparent)' : 'transparent',
-              }}
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors ${
+                isActive
+                  ? 'text-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]'
+              }`}
             >
-              <span className="w-4 text-center">{icon}</span>
-              {label}
+              <span className="text-base w-4.5 text-center">{item.icon}</span>
+              {item.label}
             </Link>
           )
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="px-5 py-4 border-t space-y-3" style={{ borderColor: 'var(--border)' }}>
-        <ThemeToggle />
+      <div className="border-t border-[var(--border)] p-4 mt-auto">
         <div className="flex items-center gap-2.5">
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-            style={{ background: 'var(--accent)' }}
-          >
-            {initials}
+          <div className="w-7 h-7 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+            EM
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-semibold truncate" style={{ color: 'var(--text-secondary)' }}>
-              {userEmail}
-            </div>
-            <button
-              onClick={signOut}
-              className="text-[10px] hover:underline"
-              style={{ color: 'var(--text-faint)' }}
-            >
-              Sair
-            </button>
+            <div className="text-xs font-semibold text-[var(--text-secondary)]">Esteves Marques</div>
+            <div className="text-[10px] text-[var(--text-faint)] truncate">esteves@livingnet.com.br</div>
           </div>
         </div>
       </div>
