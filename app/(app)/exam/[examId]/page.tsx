@@ -93,25 +93,23 @@ export default function ExamDetailPage() {
       {/* Topics section */}
       {topics.length > 0 && (
         <div
-          className="rounded-[10px] border p-6 space-y-3"
+          className="rounded-2xl shadow-sm border p-6 space-y-5"
           style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
         >
           <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
-            Tópicos do Exame
+            Skills Measured
           </h2>
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {topics.map((section, i) => (
-              <details key={i} className="group">
-                <summary
-                  className="flex items-center justify-between cursor-pointer list-none text-sm font-medium p-2 rounded-md transition-colors hover:bg-[var(--bg-option)]"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  <span>{section.topic}</span>
-                  <span className="text-xs transition-transform group-open:rotate-180" style={{ color: 'var(--text-muted)' }}>
-                    ▼
-                  </span>
-                </summary>
-                <div className="flex flex-wrap gap-1.5 mt-2 pl-2">
+              <div
+                key={i}
+                className="rounded-xl border p-4 space-y-2"
+                style={{ background: 'var(--bg-page)', borderColor: 'var(--border)' }}
+              >
+                <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
+                  {section.topic}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {section.subtopics.map((sub) => (
                     <span
                       key={sub}
@@ -122,7 +120,7 @@ export default function ExamDetailPage() {
                     </span>
                   ))}
                 </div>
-              </details>
+              </div>
             ))}
           </div>
         </div>
