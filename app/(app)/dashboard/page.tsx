@@ -29,10 +29,15 @@ export default async function DashboardPage() {
     ? Math.round(allSessions.reduce((acc, s) => acc + s.score, 0) / totalSims)
     : 0
 
-  const { data: attempts } = await supabase
-    .from('question_attempts')
-    .select('topic_tag, is_correct')
-    .eq('user_id', user.id)
+  const sessionIds = allSessions.map((s) => s.id)
+  let attempts = null
+  if (sessionIds.length > 0) {
+    const result = await supabase
+      .from('question_attempts')
+      .select('topic_tag, is_correct')
+      .in('session_id', sessionIds)
+    attempts = result.data
+  }
 
   const topicStats = computeTopicStats(attempts ?? [])
   const weakTopics = topicStats.filter((t) => t.pct < 70).slice(0, 3).map((t) => t.topic_tag)

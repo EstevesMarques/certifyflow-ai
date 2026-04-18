@@ -1,3 +1,5 @@
+'use client'
+
 interface BarData { label: string; value: number }
 
 export default function PerformanceChart({ data, title }: { data: BarData[]; title: string }) {

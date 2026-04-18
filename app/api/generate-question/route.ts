@@ -57,21 +57,3 @@ function getWeakTopics(
     .map((x) => x.tag)
 }
 
-function getWeakTopics(
-  attempts: { topic_tag: string; is_correct: boolean }[]
-): string[] {
-  if (attempts.length === 0) return []
-
-  const stats: Record<string, { total: number; correct: number }> = {}
-  for (const a of attempts) {
-    if (!stats[a.topic_tag]) stats[a.topic_tag] = { total: 0, correct: 0 }
-    stats[a.topic_tag].total++
-    if (a.is_correct) stats[a.topic_tag].correct++
-  }
-
-  return Object.entries(stats)
-    .map(([tag, { total, correct }]) => ({ tag, pct: correct / total }))
-    .sort((a, b) => a.pct - b.pct)
-    .slice(0, 3)
-    .map((x) => x.tag)
-}

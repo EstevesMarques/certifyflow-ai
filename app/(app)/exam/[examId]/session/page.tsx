@@ -34,6 +34,7 @@ export default function SessionPage() {
   const [score, setScore] = useState(0)
   const [topicStats, setTopicStats] = useState<TopicStat[]>([])
   const [error, setError] = useState('')
+  const [resultData, setResultData] = useState<{ score: number; topicStats: TopicStat[] } | null>(null)
   const [timeRemaining, setTimeRemaining] = useState(totalQ * 90)
 
   // Global timer (not reset per question)
@@ -117,8 +118,7 @@ export default function SessionPage() {
         body: JSON.stringify({ sessionId, examId, answers: finalAnswers }),
       })
       const data = await res.json()
-      setScore(data.score)
-      setTopicStats(data.topicStats ?? [])
+      setResultData({ score: data.score, topicStats: data.topicStats ?? [] })
       setPhase('result')
     } catch {
       setError('Erro ao salvar resultados.')
@@ -126,15 +126,15 @@ export default function SessionPage() {
   }
 
   // --- RESULT SCREEN ---
-  if (phase === 'result') {
-    const passed = score >= 70
+  if (phase === 'result' && resultData) {
+    const passed = resultData.score >= 70
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md rounded-xl border overflow-hidden"
           style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
           <div className="py-8 px-6 text-center"
             style={{ background: 'linear-gradient(135deg, #0078d4 0%, #0063b1 100%)' }}>
-            <div className="text-5xl font-extrabold text-white">{score}%</div>
+            <div className="text-5xl font-extrabold text-white">{resultData.score}%</div>
             <div className="text-sm text-white/80 mt-1">
               {answers.filter((a) => a.is_correct).length} de {answers.length} corretas
             </div>
@@ -144,8 +144,8 @@ export default function SessionPage() {
             </div>
           </div>
           <div className="p-5 space-y-4">
-            {topicStats.length > 0 && (
-              <TopicBreakdown stats={topicStats} title="Desempenho por área" />
+            {resultData.topicStats.length > 0 && (
+              <TopicBreakdown stats={resultData.topicStats} title="Desempenho por área" />
             )}
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => router.push(`/exam/${examId}`)}>

@@ -34,13 +34,12 @@ export async function POST(request: NextRequest) {
     const { error: attemptsError } = await supabase.from('question_attempts').insert(
       answers.map((a) => ({
         session_id: sessionId,
-        user_id: user.id,
-        exam_id: examId,
+        question_id: crypto.randomUUID(),
         topic_tag: a.topic_tag,
         is_correct: a.is_correct,
         question_text: a.question_text,
-        correct_answer: a.correct_answer,
-        user_answer: a.user_answer,
+        selected_option: a.user_answer,
+        correct_option: a.correct_answer,
       }))
     )
     if (attemptsError) throw attemptsError

@@ -4,7 +4,7 @@ CertifyFlow AI — Microsoft Certification Exam Simulator PWA. Guidance for Clau
 
 ## Project Status
 
-**MVP Phase**: Core exam simulation flow implemented and functional.
+**MVP Phase**: Core exam simulation flow fully functional.
 - ✅ Authentication (Supabase Auth)
 - ✅ Dashboard with stats, charts, and history
 - ✅ Exam catalog with 15+ Microsoft certifications
@@ -13,7 +13,7 @@ CertifyFlow AI — Microsoft Certification Exam Simulator PWA. Guidance for Clau
 - ✅ Theme system (light/dark mode)
 - ✅ Progress tracking page
 - ✅ Settings page
-- ⏳ Results API needs column name alignment (`selected_option` vs `user_answer`)
+- ✅ Results API — fully working (score calculation, topic stats, dashboard cache invalidation)
 
 ## Commands
 
@@ -52,15 +52,15 @@ npm run test:watch # Jest in watch mode
   - `/generate-question` — Adaptive question generation (POST)
   - `/results` — Session result submission (POST)
   - `/catalog` — Exam catalog proxy (GET)
-  
+
 - **`lib/supabase/`**
   - `browser-client.ts` — Client-side Supabase (Client Components only)
   - `server-client.ts` — Server-side Supabase (Route Handlers + Server Components)
-  
+
 - **`lib/`**
   - `openai.ts` — `generateQuestion()` + `buildPrompt()` (called from Route Handlers only)
   - `catalog.ts` — `fetchExams()` (Microsoft Catalog API with static fallback)
-  
+
 - **`components/`**
   - `Sidebar.tsx` — Navigation sidebar with theme toggle
   - `ThemeToggle.tsx` — Dark/light mode switcher
@@ -92,8 +92,10 @@ CSS custom properties in `app/globals.css`:
 **Tables**:
 - `profiles` — User metadata (id, email, display_name)
 - `exams` — Exam catalog (id: TEXT, title, exam_code, provider)
-- `exam_sessions` — User exam attempts (user_id, exam_id, total_q, score, passed)
-- `question_attempts` — Individual question records (session_id, topic_tag, selected_option, is_correct)
+- `exam_sessions` — User exam attempts (id, user_id, exam_id, total_q, score, passed, started_at, completed_at)
+- `question_attempts` — Individual question records (id, session_id, question_id, topic_tag, question_text, selected_option, correct_option, is_correct, time_spent_seconds)
+
+**Note**: `question_attempts` does NOT have `user_id` or `exam_id` columns directly — access via `session_id` -> `exam_sessions`.
 
 **Security**:
 - All tables protected by RLS: `user_id = auth.uid()`
@@ -101,10 +103,18 @@ CSS custom properties in `app/globals.css`:
 - Use `browser-client.ts` in Client Components
 - Use `server-client.ts` in Route Handlers + Server Components
 
-**Current Schema Issues**:
-- `question_attempts` uses `selected_option` and `correct_option` columns
-- Session page tries to save `user_answer` and `correct_answer` — **needs alignment**
-- Fix: Either rename columns or update submission code in `/api/results`
+## Results API Flow
+
+1. User completes exam or timer expires
+2. `submitResults()` called with all answers
+3. `/api/results` receives: `{ sessionId, examId, answers[] }`
+4. Insert each answer into `question_attempts` with:
+   - `session_id` (NOT `user_id` or `exam_id`)
+   - `question_id` (generated via `crypto.randomUUID()`)
+   - `topic_tag`, `question_text`, `selected_option`, `correct_option`, `is_correct`
+5. Update `exam_sessions` with `score`, `total_q`, `completed_at`
+6. Invalidate dashboard/progress cache via `revalidatePath()`
+7. Return `{ score, topicStats }` to client
 
 ## Dependencies
 
@@ -162,8 +172,6 @@ OPENAI_API_KEY=sk-...
 
 ## Known Issues / TODO
 
-- [ ] Align `question_attempts` column names (selected_option ↔ user_answer)
-- [ ] Test results API end-to-end (create session → answer 3 questions → submit → verify score)
 - [ ] Add question flagging feature (UI exists, no backend)
 - [ ] Populate more Microsoft exam data (currently ~15 static exams)
 - [ ] Add certificate generation
@@ -177,12 +185,15 @@ OPENAI_API_KEY=sk-...
 1. Run `npm install` to install all dependencies
 2. Set up `.env.local` with Supabase credentials
 3. Run `npm run dev` and test flows
-4. **Priority fix**: Align `question_attempts` schema with submission code in `/api/results`
-5. **Next feature**: Add flagging persistence to database
 
 **Testing flow**:
 1. Create test account (register)
 2. Go to `/catalog` → click exam → set question count → click "Iniciar Simulado"
-3. Answer 3-5 questions, submit
+3. Answer questions, submit or wait for timer
 4. Verify results page shows score + topic breakdown
-5. Check `/progress` to see recorded session + history
+5. Check `/dashboard` and `/progress` to see recorded session + history
+
+**Important Schema Notes**:
+- `question_attempts` columns: `session_id`, `question_id`, `topic_tag`, `question_text`, `selected_option`, `correct_option`, `is_correct` — NO `user_id` or `exam_id`
+- When querying user attempts for stats, join via `exam_sessions`: `supabase.from('question_attempts').select(...).in('session_id', sessionIds)`
+- When inserting results, always generate `question_id` with `crypto.randomUUID()`
