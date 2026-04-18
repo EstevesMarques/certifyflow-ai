@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "Bash(C:/Users/cwaic/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh *)",
+      "Bash(xargs cat *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}
