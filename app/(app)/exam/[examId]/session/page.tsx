@@ -28,6 +28,7 @@ export default function SessionPage() {
 
   const [phase, setPhase] = useState<Phase>('loading')
   const [current, setCurrent] = useState<GeneratedQuestion | null>(null)
+  const [prefetchedQuestion, setPrefetchedQuestion] = useState<GeneratedQuestion | null>(null)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>()
   const [answers, setAnswers] = useState<SessionAnswer[]>([])
@@ -61,6 +62,7 @@ export default function SessionPage() {
     setPhase('loading')
     setSelectedAnswer(undefined)
     setFlagged(false)
+    setPrefetchedQuestion(null)
     try {
       const askedTopics = answers.map((a) => a.topic_tag)
       const res = await fetch('/api/generate-question', {
@@ -72,8 +74,26 @@ export default function SessionPage() {
       const q: GeneratedQuestion = await res.json()
       setCurrent(q)
       setPhase('question')
+      triggerPrefetch()
     } catch (e) {
       setError('Erro ao carregar questão. Verifique sua conexão.')
+    }
+  }
+
+  async function triggerPrefetch() {
+    if (questionIndex + 1 >= totalQ) return
+    try {
+      const askedTopics = answers.map((a) => a.topic_tag)
+      const res = await fetch('/api/generate-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ examId, sessionId, askedTopics }),
+      })
+      if (!res.ok) return
+      const q: GeneratedQuestion = await res.json()
+      setPrefetchedQuestion(q)
+    } catch {
+      // Silently fail — fallback to normal fetch flow
     }
   }
 
@@ -83,7 +103,7 @@ export default function SessionPage() {
     setPhase('review')
   }
 
-  async function nextQuestion() {
+  function advanceToNext() {
     if (!current || !selectedAnswer) return
 
     const answer: SessionAnswer = {
@@ -97,7 +117,15 @@ export default function SessionPage() {
     setAnswers(updatedAnswers)
 
     if (questionIndex + 1 >= totalQ) {
-      await submitResults(updatedAnswers)
+      submitResults(updatedAnswers)
+    } else if (prefetchedQuestion) {
+      setCurrent(prefetchedQuestion)
+      setPrefetchedQuestion(null)
+      setQuestionIndex((i) => i + 1)
+      setPhase('question')
+      setSelectedAnswer(undefined)
+      setFlagged(false)
+      triggerPrefetch()
     } else {
       setQuestionIndex((i) => i + 1)
       fetchQuestion()
@@ -240,7 +268,7 @@ export default function SessionPage() {
                   >
                     {flagged ? '⚑ Marcado' : '⚑ Marcar para revisão'}
                   </button>
-                  <Button onClick={nextQuestion} style={{ background: 'var(--accent)' }}>
+                  <Button onClick={advanceToNext} style={{ background: 'var(--accent)' }}>
                     {questionIndex + 1 >= totalQ ? 'Ver resultado →' : 'Próxima →'}
                   </Button>
                 </div>

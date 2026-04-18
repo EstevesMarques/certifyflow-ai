@@ -105,6 +105,8 @@ export async function generateQuestion(
       },
     ],
     temperature: 0.9,
+  }, {
+    signal: AbortSignal.timeout(15000),
   });
 
   const raw = completion.choices[0].message.content;

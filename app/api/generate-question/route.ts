@@ -22,6 +22,8 @@ export async function POST(request: NextRequest) {
       .from('question_attempts')
       .select('topic_tag, is_correct')
       .eq('user_id', user.id)
+      .limit(500)
+      .order('created_at', { ascending: false })
 
     const weakTopics = getWeakTopics(attempts ?? [], askedTopics)
 
