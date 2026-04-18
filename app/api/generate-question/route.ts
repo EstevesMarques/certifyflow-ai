@@ -27,7 +27,15 @@ export async function POST(request: NextRequest) {
 
     const weakTopics = getWeakTopics(attempts ?? [], askedTopics)
 
-    const question = await generateQuestion(examId, weakTopics, askedTopics)
+    // Fetch skills_measured from the exam
+    const { data: exam } = await supabase
+      .from('exams')
+      .select('skills_measured')
+      .eq('id', examId)
+      .single()
+
+    const skills_measured = exam?.skills_measured ?? null
+    const question = await generateQuestion(examId, weakTopics, askedTopics, skills_measured)
     return NextResponse.json(question)
   } catch (error) {
     if (error instanceof z.ZodError) {

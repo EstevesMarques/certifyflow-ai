@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
 import { GeneratedQuestion } from '@/types';
-import { enrichTopics } from './exam-topics';
+import { enrichTopics, ExamTopic } from './exam-topics';
 
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -33,9 +33,12 @@ export function buildPrompt(
   examId: string,
   weakTopics: string[],
   askedTopics: string[] = [],
-  enrichedTopics?: ReturnType<typeof enrichTopics>
+  skills_measured?: ExamTopic[] | null
 ): string {
-  const enriched = enrichedTopics ?? enrichTopics(examId, weakTopics);
+  let enriched = skills_measured
+  if (!enriched || enriched.length === 0) {
+    enriched = enrichTopics(examId, weakTopics)
+  }
 
   const topicLine = weakTopics.length > 0
     ? `Priorize os seguintes tópicos (onde o usuário tem maior dificuldade): ${weakTopics.join(', ')}.`
@@ -87,9 +90,13 @@ Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem 
 export async function generateQuestion(
   examId: string,
   weakTopics: string[],
-  askedTopics: string[] = []
+  askedTopics: string[] = [],
+  skills_measured?: ExamTopic[] | null
 ): Promise<GeneratedQuestion> {
-  const enriched = enrichTopics(examId, weakTopics);
+  let enriched = skills_measured
+  if (!enriched || enriched.length === 0) {
+    enriched = enrichTopics(examId, weakTopics)
+  }
 
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o',
