@@ -30,7 +30,11 @@
       "mcp__plugin_context-mode_context-mode__ctx_execute_file",
       "mcp__claude_ai_Supabase__execute_sql",
       "Bash(curl -s \"https://learn.microsoft.com/api/catalog/?type=examinations\")",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(npx next *)",
+      "Bash(npx supabase *)",
+      "Bash(NEXT_PUBLIC_SUPABASE_URL=\"https://czcqxrosrxhzppmyqaol.supabase.co\" NEXT_PUBLIC_SUPABASE_ANON_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3F4cm9zcnhoenBwbXlxYW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTU0MjYsImV4cCI6MjA5MjA5MTQyNn0.Q-uh6Qo6h8fKncmXXpuNlLGxsBA6gEH6X26jPg5mv1g\" npx ts-node *)",
+      "mcp__plugin_claude-mem_mcp-search__smart_outline"
     ]
   },
   "enableAllProjectMcpServers": true,
