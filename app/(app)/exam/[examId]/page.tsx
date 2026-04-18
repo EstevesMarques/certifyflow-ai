@@ -62,7 +62,7 @@ export default function ExamDetailPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="max-w-4xl mx-auto p-6 md:p-8 space-y-8">
       {/* Back link */}
       <Link
         href="/catalog"
@@ -74,24 +74,20 @@ export default function ExamDetailPage() {
 
       {/* Header card */}
       <div
-        className="rounded-[10px] border p-6 space-y-3"
+        className="rounded-2xl shadow-sm border p-6 md:p-8 space-y-4"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="mb-2">
-              <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
-                {exam?.level ?? 'N/A'}
-              </Badge>
-            </div>
-            <h1 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
-              {examTitle}
-            </h1>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-              {exam?.description ?? 'Descrição não disponível.'}
-            </p>
-          </div>
+        <div className="mb-2">
+          <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
+            {exam?.level ?? 'N/A'}
+          </Badge>
         </div>
+        <h1 className="text-2xl md:text-3xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+          {examTitle}
+        </h1>
+        <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+            {exam?.description ?? 'Descrição não disponível.'}
+          </p>
       </div>
 
       {/* Topics section */}
