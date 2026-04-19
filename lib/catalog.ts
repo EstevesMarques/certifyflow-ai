@@ -74,13 +74,17 @@ export async function syncCatalog(): Promise<{ total: number; inserted: number; 
     if (!existing) {
       const { error } = await sb.from('exams').insert({
         id: processed.external_id,
+        exam_code: processed.external_id,
         ...processed,
       })
       if (!error) inserted++
     } else if (existing.source === 'api') {
       const { error } = await sb
         .from('exams')
-        .update(processed)
+        .update({
+          ...processed,
+          exam_code: processed.external_id,
+        })
         .eq('external_id', processed.external_id)
       if (!error) updated++
     }
