@@ -1,6 +1,5 @@
 import { Exam } from '@/types'
 export { STATIC_EXAMS } from '@/lib/static-exams'
-import { STATIC_EXAMS } from '@/lib/static-exams'
 
 interface MicrosoftCatalogItem {
   uid: string
@@ -119,25 +118,5 @@ export async function fetchExams(): Promise<Exam[]> {
       }))
     }
   } catch { /* fall through */ }
-  // fallback to Microsoft API
-  try {
-    const res = await fetch(
-      'https://learn.microsoft.com/api/catalog/?type=exams',
-      { next: { revalidate: 86400 } }
-    )
-    if (!res.ok) return STATIC_EXAMS
-    const data = await res.json()
-    const items = data?.exams
-    if (!Array.isArray(items) || items.length === 0) return STATIC_EXAMS
-    return items
-      .filter((e: MicrosoftCatalogItem) => e.uid?.startsWith('exam.'))
-      .map((e: MicrosoftCatalogItem) => ({
-        id: e.uid?.replace('exam.', '').toUpperCase() ?? '',
-        title: e.title,
-        description: e.subtitle ?? '',
-        level: mapLevel(e.levels?.[0] ?? ''),
-      }))
-  } catch {
-    return STATIC_EXAMS
-  }
+  return []
 }
