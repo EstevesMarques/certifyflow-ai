@@ -3,6 +3,9 @@
 /** Difficulty level for Microsoft certification exams */
 export type ExamLevel = 'Fundamentals' | 'Associate' | 'Expert'
 
+/** Source of the exam record */
+export type ExamSource = 'api' | 'manual'
+
 /** Represents a Microsoft certification exam */
 export interface Exam {
   /** Unique identifier for the exam */
@@ -15,6 +18,16 @@ export interface Exam {
   level: ExamLevel
   /** Timestamp of last update */
   updated_at?: string
+  /** Source of the exam record */
+  source?: ExamSource
+  /** Whether the exam is in beta */
+  is_beta?: boolean
+  /** Associated role certifications */
+  roles?: string[]
+  /** Associated product names */
+  products?: string[]
+  /** External Microsoft Learn UID (without 'exam.' prefix) */
+  external_id?: string
 }
 
 /** User profile information */
