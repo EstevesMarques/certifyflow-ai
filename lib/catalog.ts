@@ -71,20 +71,27 @@ export async function syncCatalog(): Promise<{ total: number; inserted: number; 
       .select('source')
       .eq('external_id', processed.external_id)
       .maybeSingle()
+    const examRecord = {
+      id: processed.external_id,
+      external_id: processed.external_id,
+      exam_code: processed.external_id,
+      provider: 'Microsoft',
+      title: processed.title,
+      description: processed.description,
+      source: processed.source,
+      exam_level: processed.level,
+      roles: processed.roles,
+      products: processed.products,
+      is_beta: processed.is_beta,
+      last_updated: processed.updated_at,
+    }
     if (!existing) {
-      const { error } = await sb.from('exams').insert({
-        id: processed.external_id,
-        exam_code: processed.external_id,
-        ...processed,
-      })
+      const { error } = await sb.from('exams').insert(examRecord)
       if (!error) inserted++
     } else if (existing.source === 'api') {
       const { error } = await sb
         .from('exams')
-        .update({
-          ...processed,
-          exam_code: processed.external_id,
-        })
+        .update(examRecord)
         .eq('external_id', processed.external_id)
       if (!error) updated++
     }
