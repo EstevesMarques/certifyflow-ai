@@ -12,22 +12,38 @@ export interface Exam {
   id: string
   /** Title of the exam */
   title: string
+  /** Short description/subtitle from Microsoft catalog */
+  subtitle?: string
   /** Description of the exam content and objectives */
   description: string
+  /** Short code/name (e.g. AZ-104, AI-103) */
+  display_name?: string
   /** Difficulty level of the exam */
   level: ExamLevel
-  /** Timestamp of last update */
-  updated_at?: string
-  /** Source of the exam record */
-  source?: ExamSource
-  /** Whether the exam is in beta */
-  is_beta?: boolean
+  /** Microsoft Learn certification URL */
+  url?: string
+  /** Badge icon URL */
+  icon_url?: string
+  /** PDF skills assessment download URL */
+  pdf_download_url?: string
   /** Associated role certifications */
   roles?: string[]
   /** Associated product names */
   products?: string[]
+  /** Associated provider names */
+  providers?: string[]
+  /** Associated course IDs */
+  courses?: string[]
+  /** Study guide sections */
+  study_guide?: string[]
+  /** Whether the exam is in beta */
+  is_beta?: boolean
+  /** Source of the exam record */
+  source?: ExamSource
   /** External Microsoft Learn UID (without 'exam.' prefix) */
   external_id?: string
+  /** Timestamp of last update */
+  updated_at?: string
 }
 
 /** User profile information */

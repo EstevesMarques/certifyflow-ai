@@ -5,9 +5,16 @@ interface MicrosoftCatalogItem {
   uid: string
   title: string
   subtitle?: string
+  display_name?: string
+  url?: string
+  icon_url?: string
+  pdf_download_url?: string
   levels?: string[]
   roles?: string[]
   products?: string[]
+  providers?: string[]
+  courses?: string[]
+  study_guide?: string[]
   is_beta?: boolean
   last_modified?: string
 }
@@ -31,18 +38,29 @@ function mapLevel(level: string): Exam['level'] {
   return 'Associate'
 }
 
-export function processExamItem(item: MicrosoftCatalogItem): Omit<Exam, 'id'> {
+export function processExamItem(item: MicrosoftCatalogItem) {
   const externalId = item.uid?.replace('exam.', '').toUpperCase() ?? ''
   return {
+    id: externalId,
     external_id: externalId,
+    exam_code: externalId,
+    provider: 'Microsoft',
     title: item.title ?? '',
+    subtitle: item.subtitle ?? '',
     description: item.subtitle ?? '',
-    level: mapLevel(item.levels?.[0] ?? ''),
+    display_name: item.display_name ?? '',
+    url: item.url ?? '',
+    icon_url: item.icon_url ?? '',
+    pdf_download_url: item.pdf_download_url ?? '',
+    exam_level: mapLevel(item.levels?.[0] ?? ''),
     roles: item.roles ?? [],
     products: item.products ?? [],
+    providers: item.providers ?? [],
+    courses: item.courses ?? [],
+    study_guide: item.study_guide ?? [],
     is_beta: item.is_beta ?? false,
     source: 'api',
-    updated_at: item.last_modified ?? new Date().toISOString(),
+    last_updated: item.last_modified ?? new Date().toISOString(),
   }
 }
 
@@ -70,20 +88,7 @@ export async function syncCatalog(): Promise<{ total: number; inserted: number; 
       .select('source')
       .eq('external_id', processed.external_id)
       .maybeSingle()
-    const examRecord = {
-      id: processed.external_id,
-      external_id: processed.external_id,
-      exam_code: processed.external_id,
-      provider: 'Microsoft',
-      title: processed.title,
-      description: processed.description,
-      source: processed.source,
-      exam_level: processed.level,
-      roles: processed.roles,
-      products: processed.products,
-      is_beta: processed.is_beta,
-      last_updated: processed.updated_at,
-    }
+    const examRecord = processed
     if (!existing) {
       const { error } = await sb.from('exams').insert(examRecord)
       if (!error) inserted++
@@ -106,15 +111,23 @@ export async function fetchExams(): Promise<Exam[]> {
     if (!error && Array.isArray(data) && data.length > 0) {
       return data.map(e => ({
         id: e.external_id ?? e.id,
-        title: e.title,
-        description: e.description ?? '',
-        level: e.level,
-        updated_at: e.updated_at,
-        source: e.source,
-        is_beta: e.is_beta,
+        external_id: e.external_id ?? e.id,
+        title: e.title ?? '',
+        description: e.subtitle ?? e.description ?? '',
+        subtitle: e.subtitle ?? '',
+        display_name: e.display_name ?? '',
+        level: e.exam_level ?? e.level ?? 'Associate',
         roles: e.roles ?? [],
         products: e.products ?? [],
-        external_id: e.external_id,
+        providers: e.providers ?? [],
+        courses: e.courses ?? [],
+        study_guide: e.study_guide ?? [],
+        is_beta: e.is_beta ?? false,
+        source: e.source,
+        updated_at: e.last_updated ?? e.updated_at,
+        url: e.url ?? '',
+        icon_url: e.icon_url ?? '',
+        pdf_download_url: e.pdf_download_url ?? '',
       }))
     }
   } catch { /* fall through */ }

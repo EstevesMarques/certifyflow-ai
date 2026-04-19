@@ -1,14 +1,14 @@
 'use client'
 
 import { useRouter, useParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/browser-client'
-import { STATIC_EXAMS } from '@/lib/static-exams'
 import { EXAM_TOPICS } from '@/lib/exam-topics'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, ExternalLink, Download } from 'lucide-react'
+import type { Exam } from '@/types'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
@@ -20,13 +20,25 @@ const LEVEL_BADGE_VARIANT = {
 
 export default function ExamDetailPage() {
   const { examId } = useParams<{ examId: string }>()
-  const exam = STATIC_EXAMS.find((e) => e.id === examId)
-  const examTitle = exam?.title ?? examId
+  const [exam, setExam] = useState<Exam | null>(null)
   const topics = EXAM_TOPICS[examId] ?? []
   const router = useRouter()
   const [totalQ, setTotalQ] = useState(20)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!examId) return
+    const supabase = createClient()
+    supabase
+      .from('exams')
+      .select('*')
+      .eq('id', examId.toUpperCase())
+      .single()
+      .then(({ data }) => setExam(data))
+  }, [examId])
+
+  const examTitle = exam?.title ?? examId
 
   async function startExam() {
     try {
@@ -81,17 +93,64 @@ export default function ExamDetailPage() {
             className="rounded-2xl shadow-sm border p-8 space-y-4"
             style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
           >
-            <div className="mb-2">
-              <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
-                {exam?.level ?? 'N/A'}
-              </Badge>
+            <div className="flex items-start justify-between gap-6 flex-wrap">
+              <div className="flex items-start gap-5">
+                {exam?.icon_url && (
+                  <img
+                    src={exam.icon_url}
+                    alt={exam.display_name ?? examId}
+                    className="w-16 h-16 flex-shrink-0"
+                  />
+                )}
+                <div>
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
+                    {exam?.display_name && (
+                      <span className="text-sm font-bold tracking-wide" style={{ color: 'var(--accent)' }}>
+                        {exam.display_name}
+                      </span>
+                    )}
+                    <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] ?? 'outline' : 'outline'}>
+                      {exam?.level ?? 'N/A'}
+                    </Badge>
+                    {exam?.is_beta && <Badge variant="destructive">Beta</Badge>}
+                  </div>
+                  <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+                    {examTitle}
+                  </h1>
+                  {exam?.subtitle && (
+                    <p className="text-base max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
+                      {exam.subtitle}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 min-w-[200px]">
+                {exam?.url && (
+                  <a
+                    href={exam.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border transition-colors"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+                  >
+                    <ExternalLink size={15} style={{ color: 'var(--accent)' }} />
+                    Ver no Microsoft Learn
+                  </a>
+                )}
+                {exam?.pdf_download_url && (
+                  <a
+                    href={exam.pdf_download_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border transition-colors"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+                  >
+                    <Download size={15} style={{ color: 'var(--accent)' }} />
+                    Baixar skills (PDF)
+                  </a>
+                )}
+              </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
-              {examTitle}
-            </h1>
-            <p className="text-base max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
-              {exam?.description ?? 'Descrição não disponível.'}
-            </p>
           </div>
         </div>
 
