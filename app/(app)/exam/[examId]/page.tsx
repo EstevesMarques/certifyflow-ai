@@ -63,113 +63,121 @@ export default function ExamDetailPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 md:p-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Back link */}
       <Link
         href="/catalog"
-        className="inline-flex items-center gap-1 text-sm transition-colors"
+        className="inline-flex items-center gap-1 text-sm transition-colors mb-6 block"
         style={{ color: 'var(--accent)' }}
       >
         ← Voltar ao Catálogo
       </Link>
 
-      {/* Header card */}
-      <div
-        className="rounded-2xl shadow-sm border p-6 md:p-8 space-y-4"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-      >
-        <div className="mb-2">
-          <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
-            {exam?.level ?? 'N/A'}
-          </Badge>
-        </div>
-        <h1 className="text-2xl md:text-3xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
-          {examTitle}
-        </h1>
-        <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
-            {exam?.description ?? 'Descrição não disponível.'}
-          </p>
-      </div>
+      {/* Two-column layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left column - Content */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Header card */}
+          <div
+            className="rounded-2xl shadow-sm border p-6 md:p-8 space-y-4"
+            style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+          >
+            <div className="mb-2">
+              <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] : 'outline'}>
+                {exam?.level ?? 'N/A'}
+              </Badge>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+              {examTitle}
+            </h1>
+            <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+              {exam?.description ?? 'Descrição não disponível.'}
+            </p>
+          </div>
 
-      {/* Topics section */}
-      {topics.length > 0 && (
-        <div
-          className="rounded-2xl shadow-sm border p-6 space-y-5"
-          style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-        >
-          <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
-            Skills Measured
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {topics.map((section, i) => (
-              <div
-                key={i}
-                className="rounded-xl border p-4 space-y-2"
-                style={{ background: 'var(--bg-page)', borderColor: 'var(--border)' }}
-              >
-                <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
-                  {section.topic}
-                </div>
-                <div className="flex flex-col gap-2 pl-1">
-                  {section.subtopics.map((sub) => (
-                    <div key={sub} className="flex items-center gap-2">
-                      <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} />
-                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        {sub}
-                      </span>
+          {/* Topics section */}
+          {topics.length > 0 && (
+            <div
+              className="rounded-2xl shadow-sm border p-6 space-y-5"
+              style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+            >
+              <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
+                Skills Measured
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {topics.map((section, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl border p-4 space-y-2"
+                    style={{ background: 'var(--bg-page)', borderColor: 'var(--border)' }}
+                  >
+                    <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
+                      {section.topic}
                     </div>
-                  ))}
-                </div>
+                    <div className="flex flex-col gap-2 pl-1">
+                      {section.subtopics.map((sub) => (
+                        <div key={sub} className="flex items-center gap-2">
+                          <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} />
+                          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                            {sub}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Start section */}
-      <div
-        className="max-w-3xl mx-auto mt-12 mb-8 rounded-2xl shadow-lg border p-6 md:p-8 space-y-5"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-      >
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
-            Pronto para começar?
-          </h3>
-          <div className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
-            Número de questões
-          </div>
-          <div className="flex gap-2">
-            {QUESTION_OPTIONS.map((q) => (
-              <button
-                key={q}
-                onClick={() => setTotalQ(q)}
-                className="flex-1 h-12 rounded-xl text-base font-medium border transition-all"
-                style={{
-                  borderColor: totalQ === q ? 'var(--accent)' : 'var(--border)',
-                  background: totalQ === q ? 'var(--accent)' : 'transparent',
-                  color: totalQ === q ? '#fff' : 'var(--text-primary)',
-                }}
-              >
-                {q}
-              </button>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
 
-        {error && (
-          <p className="text-sm text-center" style={{ color: 'var(--accent)' }}>
-            {error}
-          </p>
-        )}
+        {/* Right column - Sticky CTA */}
+        <div className="lg:col-span-1">
+          <div
+            className="sticky top-24 rounded-2xl shadow-lg border p-6 space-y-5"
+            style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
+          >
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+                Pronto para começar?
+              </h3>
+              <div className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
+                Número de questões
+              </div>
+              <div className="flex gap-2">
+                {QUESTION_OPTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => setTotalQ(q)}
+                    className="flex-1 h-12 rounded-xl text-base font-medium border transition-all"
+                    style={{
+                      borderColor: totalQ === q ? 'var(--accent)' : 'var(--border)',
+                      background: totalQ === q ? 'var(--accent)' : 'transparent',
+                      color: totalQ === q ? '#fff' : 'var(--text-primary)',
+                    }}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        <Button
-          onClick={startExam}
-          disabled={loading}
-          className="w-full h-14 text-base font-semibold"
-          style={{ background: 'var(--accent)', color: '#fff' }}
-        >
-          {loading ? 'Criando sessão...' : 'Iniciar Simulado'}
-        </Button>
+            {error && (
+              <p className="text-sm text-center" style={{ color: 'var(--accent)' }}>
+                {error}
+              </p>
+            )}
+
+            <Button
+              onClick={startExam}
+              disabled={loading}
+              className="w-full h-14 text-base font-semibold"
+              style={{ background: 'var(--accent)', color: '#fff' }}
+            >
+              {loading ? 'Criando sessão...' : 'Iniciar Simulado'}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )
