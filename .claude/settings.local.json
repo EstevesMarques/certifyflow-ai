@@ -11,7 +11,23 @@
       "mcp__plugin_context-mode_context-mode__ctx_execute",
       "Bash(npm install *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(mkdir -p \"app/\\(auth\\)/login\" \"app/\\(auth\\)/register\" \"app/\\(app\\)/dashboard\")",
+      "Bash(mv \"app/\\(auth/\\)/layout.tsx\" \"app/\\(auth\\)/layout.tsx\")",
+      "Bash(mv \"app/\\(auth/\\)/login/page.tsx\" \"app/\\(auth\\)/login/page.tsx\")",
+      "Bash(mv \"app/\\(auth/\\)/register/page.tsx\" \"app/\\(auth\\)/register/page.tsx\")",
+      "Bash(mv \"app/\\(app/\\)/layout.tsx\" \"app/\\(app\\)/layout.tsx\")",
+      "Bash(npx stylelint *)",
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "mcp__plugin_claude-mem_mcp-search__smart_outline",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "Bash(curl -s http://localhost:3000/exam/AI-102)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(git stash *)",
+      "Bash(git restore *)",
+      "Bash(git reset *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(pkill *)"
     ]
   }
 }
