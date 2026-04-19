@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 import ThemeToggle from './ThemeToggle'
 import { createClient } from '@/lib/supabase/browser-client'
 
@@ -13,6 +14,27 @@ const NAV = [
 export default function Sidebar({ userEmail }: { userEmail: string }) {
   const pathname = usePathname()
   const router = useRouter()
+  const [syncing, setSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState<string | null>(null)
+
+  async function handleSync() {
+    setSyncing(true)
+    setSyncResult(null)
+    try {
+      const res = await fetch('/api/catalog/sync', { method: 'POST' })
+      const data = await res.json()
+      if (data.success) {
+        setSyncResult(`${data.total} recebidos — ${data.inserted} inseridos, ${data.updated} atualizados`)
+      } else {
+        setSyncResult(`Erro: ${data.error}`)
+      }
+    } catch {
+      setSyncResult('Erro de conexão')
+    } finally {
+      setSyncing(false)
+      setTimeout(() => setSyncResult(null), 5000)
+    }
+  }
 
   async function signOut() {
     const supabase = createClient()
@@ -56,6 +78,21 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
             </Link>
           )
         })}
+        {/* Sync button */}
+        <button
+          onClick={handleSync}
+          disabled={syncing}
+          className="w-full flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium transition-colors disabled:opacity-50"
+          style={{ color: 'var(--text-muted)' }}
+        >
+          <span className="w-4 text-center">{syncing ? '⏳' : '🔄'}</span>
+          {syncing ? 'Sincronizando...' : 'Atualizar catálogo'}
+        </button>
+        {syncResult && (
+          <div className="px-5 py-1.5 text-[10px]" style={{ color: 'var(--text-faint)' }}>
+            {syncResult}
+          </div>
+        )}
       </nav>
 
       {/* Footer */}
