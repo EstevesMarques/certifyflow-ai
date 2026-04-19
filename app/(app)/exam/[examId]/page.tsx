@@ -131,8 +131,11 @@ export default function ExamDetailPage() {
         className="max-w-3xl mx-auto mt-12 mb-8 rounded-2xl shadow-lg border p-6 md:p-8 space-y-5"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
-        <div>
-          <div className="text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+            Pronto para começar?
+          </h3>
+          <div className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
             Número de questões
           </div>
           <div className="flex gap-2">
