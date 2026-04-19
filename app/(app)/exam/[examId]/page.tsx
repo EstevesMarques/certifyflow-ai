@@ -165,7 +165,7 @@ export default function ExamDetailPage() {
         <Button
           onClick={startExam}
           disabled={loading}
-          className="w-full h-12 text-base font-semibold"
+          className="w-full h-14 text-base font-semibold"
           style={{ background: 'var(--accent)', color: '#fff' }}
         >
           {loading ? 'Criando sessão...' : 'Iniciar Simulado'}
