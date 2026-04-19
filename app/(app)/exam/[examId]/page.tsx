@@ -143,7 +143,7 @@ export default function ExamDetailPage() {
               <button
                 key={q}
                 onClick={() => setTotalQ(q)}
-                className="flex-1 h-11 rounded-xl text-sm font-semibold border transition-all"
+                className="flex-1 h-12 rounded-xl text-base font-medium border transition-all"
                 style={{
                   borderColor: totalQ === q ? 'var(--accent)' : 'var(--border)',
                   background: totalQ === q ? 'var(--accent)' : 'transparent',
