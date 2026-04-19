@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
@@ -19,6 +20,27 @@ import {
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const [syncing, setSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState<string | null>(null)
+
+  const handleSync = async () => {
+    setSyncing(true)
+    setSyncResult(null)
+    try {
+      const res = await fetch('/api/catalog/sync', { method: 'POST' })
+      const data = await res.json()
+      if (data.success) {
+        setSyncResult(`${data.total} recebidos — ${data.inserted} inseridos, ${data.updated} atualizados`)
+      } else {
+        setSyncResult(`Erro: ${data.error}`)
+      }
+    } catch {
+      setSyncResult('Erro de conexão')
+    } finally {
+      setSyncing(false)
+      setTimeout(() => setSyncResult(null), 5000)
+    }
+  }
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', Icon: HomeIcon, ActiveIcon: HomeIconSolid },
@@ -58,6 +80,17 @@ export default function Sidebar() {
             </Link>
           )
         })}
+        <button
+          onClick={handleSync}
+          disabled={syncing}
+          className="w-full flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors disabled:opacity-50 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]"
+        >
+          <span className="w-4 text-center">{syncing ? '⏳' : '🔄'}</span>
+          {syncing ? 'Sincronizando...' : 'Atualizar catálogo'}
+        </button>
+        {syncResult && (
+          <div className="px-5 py-1.5 text-[10px] text-[var(--text-faint)]">{syncResult}</div>
+        )}
       </nav>
 
       <div className="border-t border-[var(--border)] p-4 mt-auto">
