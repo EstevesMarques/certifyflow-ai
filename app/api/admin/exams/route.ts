@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server-client'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const sb = createClient()
+    const sb = await createClient()
     const { data, error } = await sb.from('exams').insert({
       id: body.external_id,
       external_id: body.external_id,

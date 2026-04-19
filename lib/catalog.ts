@@ -71,7 +71,7 @@ export function saveSnapshot(items: MicrosoftCatalogItem[]): string {
 
 export async function syncCatalog(): Promise<{ total: number; inserted: number; updated: number }> {
   const { createClient } = await import('@/lib/supabase/server-client')
-  const sb = createClient()
+  const sb = await createClient()
   const items = await fetchFromMicrosoft()
   saveSnapshot(items)
   let inserted = 0, updated = 0
@@ -102,7 +102,7 @@ export async function syncCatalog(): Promise<{ total: number; inserted: number; 
 export async function fetchExams(): Promise<Exam[]> {
   try {
     const { createClient } = await import('@/lib/supabase/server-client')
-    const sb = createClient()
+    const sb = await createClient()
     const { data, error } = await sb.from('exams').select('*').order('title')
     if (!error && Array.isArray(data) && data.length > 0) {
       return data.map(e => ({

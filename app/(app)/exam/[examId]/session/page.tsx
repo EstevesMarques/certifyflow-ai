@@ -127,9 +127,11 @@ export default function SessionPage() {
               <Button variant="outline" className="flex-1" onClick={() => router.push(`/exam/${examId}`)}>
                 Refazer
               </Button>
-              <Button className="flex-1" style={{ background: 'var(--accent)' }} asChild>
-                <Link href="/dashboard">Ver dashboard</Link>
-              </Button>
+              <Link href="/dashboard">
+                <Button className="flex-1" style={{ background: 'var(--accent)' }}>
+                  Ver dashboard
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
