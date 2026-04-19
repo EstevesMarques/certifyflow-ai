@@ -47,6 +47,7 @@ export default function Sidebar() {
     { label: 'Catálogo', href: '/catalog', Icon: ClipboardDocumentListIcon, ActiveIcon: ClipboardDocumentListIconSolid },
     { label: 'Simulado', href: '/simulado', Icon: PlayCircleIcon, ActiveIcon: PlayCircleIconSolid },
     { label: 'Progresso', href: '/progress', Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
+    { label: 'Exames', href: '/admin/exams', Icon: ClipboardDocumentListIcon, ActiveIcon: ClipboardDocumentListIconSolid },
     { label: 'Configurações', href: '/settings', Icon: Cog6ToothIcon, ActiveIcon: Cog6ToothIconSolid },
   ]
 
@@ -59,27 +60,29 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex-1">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors ${
-                isActive
-                  ? 'text-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]'
-              }`}
-            >
-              {isActive
-                ? <item.ActiveIcon className="w-4 h-4" />
-                : <item.Icon className="w-4 h-4" />
-              }
-              {item.label}
-            </Link>
-          )
-        })}
+      <nav className="flex-1 flex flex-col">
+        <div className="flex-1">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors ${
+                  isActive
+                    ? 'text-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]'
+                }`}
+              >
+                {isActive
+                  ? <item.ActiveIcon className="w-4 h-4" />
+                  : <item.Icon className="w-4 h-4" />
+                }
+                {item.label}
+              </Link>
+            )
+          })}
+        </div>
         <button
           onClick={handleSync}
           disabled={syncing}
