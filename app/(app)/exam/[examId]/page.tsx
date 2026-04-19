@@ -128,7 +128,7 @@ export default function ExamDetailPage() {
 
       {/* Start section */}
       <div
-        className="rounded-2xl shadow-sm border p-6 space-y-5"
+        className="max-w-3xl mx-auto mt-12 mb-8 rounded-2xl shadow-lg border p-6 md:p-8 space-y-5"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
         <div>
