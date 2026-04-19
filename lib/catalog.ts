@@ -33,7 +33,7 @@ function mapLevel(level: string): Exam['level'] {
 }
 
 export function processExamItem(item: MicrosoftCatalogItem): Omit<Exam, 'id'> {
-  const externalId = item.uid?.replace('exam.', '') ?? ''
+  const externalId = item.uid?.replace('exam.', '').toUpperCase() ?? ''
   return {
     external_id: externalId,
     title: item.title ?? '',
@@ -121,7 +121,7 @@ export async function fetchExams(): Promise<Exam[]> {
     return items
       .filter((e: MicrosoftCatalogItem) => e.uid?.startsWith('exam.'))
       .map((e: MicrosoftCatalogItem) => ({
-        id: e.uid?.replace('exam.', '') ?? '',
+        id: e.uid?.replace('exam.', '').toUpperCase() ?? '',
         title: e.title,
         description: e.subtitle ?? '',
         level: mapLevel(e.levels?.[0] ?? ''),
