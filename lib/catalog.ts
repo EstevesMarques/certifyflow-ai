@@ -4,13 +4,12 @@ import { STATIC_EXAMS } from '@/lib/static-exams'
 
 interface MicrosoftCatalogItem {
   uid: string
-  examNumber?: string
   title: string
-  summary?: string
+  subtitle?: string
   levels?: string[]
   roles?: string[]
   products?: string[]
-  isBeta?: boolean
+  is_beta?: boolean
   last_modified?: string
 }
 
@@ -21,9 +20,16 @@ export async function fetchFromMicrosoft(): Promise<MicrosoftCatalogItem[]> {
   } as RequestInit)
   if (!res.ok) throw new Error(`Microsoft Catalog API error: ${res.status}`)
   const data = await res.json()
-  const items = data?.items
+  const items = data?.exams
   if (!Array.isArray(items)) throw new Error('Invalid Microsoft Catalog response')
   return items.filter((item: MicrosoftCatalogItem) => item.uid?.startsWith('exam.'))
+}
+
+function mapLevel(level: string): Exam['level'] {
+  if (level === 'fundamental') return 'Fundamentals'
+  if (level === 'intermediate') return 'Associate'
+  if (level === 'advanced') return 'Expert'
+  return 'Associate'
 }
 
 export function processExamItem(item: MicrosoftCatalogItem): Omit<Exam, 'id'> {
@@ -31,11 +37,11 @@ export function processExamItem(item: MicrosoftCatalogItem): Omit<Exam, 'id'> {
   return {
     external_id: externalId,
     title: item.title ?? '',
-    description: item.summary ?? '',
-    level: (item.levels?.[0] as Exam['level']) ?? 'Associate',
+    description: item.subtitle ?? '',
+    level: mapLevel(item.levels?.[0] ?? ''),
     roles: item.roles ?? [],
     products: item.products ?? [],
-    is_beta: item.isBeta ?? false,
+    is_beta: item.is_beta ?? false,
     source: 'api',
     updated_at: item.last_modified ?? new Date().toISOString(),
   }
@@ -110,15 +116,15 @@ export async function fetchExams(): Promise<Exam[]> {
     )
     if (!res.ok) return STATIC_EXAMS
     const data = await res.json()
-    const items = data?.items
+    const items = data?.exams
     if (!Array.isArray(items) || items.length === 0) return STATIC_EXAMS
     return items
       .filter((e: MicrosoftCatalogItem) => e.uid?.startsWith('exam.'))
       .map((e: MicrosoftCatalogItem) => ({
-        id: e.examNumber ?? e.uid?.replace('exam.', '') ?? '',
+        id: e.uid?.replace('exam.', '') ?? '',
         title: e.title,
-        description: e.summary ?? '',
-        level: (e.levels?.[0] as Exam['level']) ?? 'Associate',
+        description: e.subtitle ?? '',
+        level: mapLevel(e.levels?.[0] ?? ''),
       }))
   } catch {
     return STATIC_EXAMS
