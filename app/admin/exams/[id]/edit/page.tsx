@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, use } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function EditExamPage({ params }: { params: { id: string } }) {
+export default function EditExamPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -19,7 +20,7 @@ export default function EditExamPage({ params }: { params: { id: string } }) {
     fetch('/api/catalog')
       .then(r => r.json())
       .then(data => {
-        const exam = (Array.isArray(data) ? data : []).find((e: any) => e.id === params.id)
+        const exam = (Array.isArray(data) ? data : []).find((e: any) => e.id === id)
         if (exam) {
           setForm({
             title: exam.title ?? '',
@@ -31,12 +32,12 @@ export default function EditExamPage({ params }: { params: { id: string } }) {
           })
         }
       })
-  }, [params.id])
+  }, [id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    const res = await fetch(`/api/admin/exams/${params.id}`, {
+    const res = await fetch(`/api/admin/exams/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -51,7 +52,7 @@ export default function EditExamPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="p-8 max-w-xl">
-      <h1 className="text-xl font-bold mb-6">Editar Exame: {params.id}</h1>
+      <h1 className="text-xl font-bold mb-6">Editar Exame: {id}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">title</label>
