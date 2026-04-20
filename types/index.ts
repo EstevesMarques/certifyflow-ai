@@ -6,6 +6,13 @@ export type ExamLevel = 'Fundamentals' | 'Associate' | 'Expert'
 /** Source of the exam record */
 export type ExamSource = 'api' | 'manual'
 
+/** Skill topic with weight and subtopics from exam skills measured */
+export interface SkillItem {
+  topic: string
+  weight: string
+  subtopics: string[]
+}
+
 /** Represents a Microsoft certification exam */
 export interface Exam {
   /** Unique identifier for the exam */
@@ -36,6 +43,8 @@ export interface Exam {
   courses?: string[]
   /** Study guide sections */
   study_guide?: string[]
+  /** Structured skills measured with topic weights */
+  skills_measured?: SkillItem[]
   /** Whether the exam is in beta */
   is_beta?: boolean
   /** Source of the exam record */
