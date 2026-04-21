@@ -66,43 +66,29 @@ export function buildPrompt(
 
   return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}${skillsSection}
 
-REGRAS OBRIGATÓRIAS:
-- A questão DEVE ser baseada EXCLUSIVAMENTE nos skills listados acima
-- Escolha EXATAMENTE UM subtopic dos skills fornecidos
-- NÃO use conhecimento fora da lista de skills
-- Priorize tópicos com maior peso (weight) — quanto maior o peso, maior a chance de ser cobrado
-- A pergunta deve refletir cenário real de uso em produção (arquitetura, integração, troubleshooting)
-- Use tecnologias reais (ex: Azure AI Foundry, Azure AI Search, Azure OpenAI, RAG, agentes, etc.)
+  REGRAS OBRIGATÓRIAS:
+  - A questão DEVE ser baseada EXCLUSIVAMENTE nos skills listados acima
+  - Escolha EXATAMENTE UM subtópicos dos skills fornecidos
+  - NÃO use conhecimento fora da lista de skills
+  - Priorize tópicos com maior peso (weight) MAS NÃO ignore completamente tópicos de menor peso
+  - Use tecnologias, serviços e ferramentas relevantes ao exame (${examId})
+  - A pergunta deve refletir cenário real de uso em produção (arquitetura, integração, troubleshooting)
 
-Gere UMA questão de múltipla escolha no estilo PearsonVue, simulando uma questão REAL de prova da Microsoft.
+  Gere UMA questão de múltipla escolha no estilo PearsonVue, simulando uma questão REAL de prova da Microsoft.
 
-A questão deve:
-- Ser baseada em cenário prático (empresa real, ambiente, problema concreto)
-- Exigir raciocínio técnico (não apenas definição teórica)
-- Ter alternativas plausíveis e próximas entre si (evitar opções óbvias)
-- Incluir pelo menos uma alternativa que represente um erro comum
-- Refletir o nível do exame (${examId})
-
-Instruções:
-- Use terminologia oficial da Microsoft sempre que possível
-- 4 alternativas (A, B, C, D), apenas uma correta
-- Não use "todas as anteriores" ou "nenhuma das anteriores"
-- Inclua explicação clara e objetiva, justificando por que a resposta correta é a melhor escolha
-- topic_tag deve ser DERIVADO do subtopic escolhido e normalizado em slug (ex: "rag-implementation", "agent-orchestration", "ai-foundry-deployment")
-
-Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem texto extra):
-{
-  "question": "enunciado da questão",
-  "options": {
-    "A": "...",
-    "B": "...",
-    "C": "...",
-    "D": "..."
-  },
-  "correct_answer": "A",
-  "explanation": "explicação detalhada da resposta correta",
-  "topic_tag": "nome-do-topico-em-slug"
-}`;
+  Retorne APENAS um objeto JSON com a seguinte estrutura exata (sem markdown, sem texto extra):
+  {
+    "question": "enunciado da questão",
+    "options": {
+      "A": "...",
+      "B": "...",
+      "C": "...",
+      "D": "..."
+    },
+    "correct_answer": "X", // onde X é A, B, C ou D
+    "explanation": "explicação detalhada da resposta correta",
+    "topic_tag": "nome-do-topico-em-slug"
+  }`;
 }
 
 export async function generateQuestion(
@@ -111,28 +97,67 @@ export async function generateQuestion(
   askedTopics: string[] = [],
   skills_measured?: SkillItem[] | null
 ): Promise<GeneratedQuestion> {
-  if (skills_measured && skills_measured.length > 0) {
-    console.log('[AI INPUT SKILLS]', JSON.stringify(skills_measured, null, 2))
-  }
+
+  const question = buildPrompt(examId, weakTopics, askedTopics, skills_measured);
+  //console.log('[AI INPUT QUESTION]', question);
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     response_format: { type: 'json_object' },
     messages: [
       {
         role: 'system',
-        content: 'Você é um gerador de questões de certificação Microsoft no estilo PearsonVue. Retorne APENAS JSON válido, sem markdown. Gere questões ORIGINAIS e VARIADAS.',
+        content: `
+          Você é um gerador de questões de certificação Microsoft no estilo PearsonVue.
+
+          COMPORTAMENTO OBRIGATÓRIO:
+          - Gere questões difíceis, no nível real da certificação
+          - Sempre use cenários práticos (arquitetura, implementação, troubleshooting)
+          - Evite perguntas teóricas simples
+
+          DIFICULDADE (CRÍTICO):
+          - NÃO gere perguntas triviais ou conceituais simples
+          - A questão deve exigir análise e tomada de decisão
+          - Se a resposta puder ser identificada rapidamente, a questão é inválida
+
+          FORMATO DA QUESTÃO:
+          - Baseada em cenário prático real (empresa, arquitetura, problema concreto)
+          - Pode envolver múltiplos serviços ou componentes relevantes ao exame
+          - Deve exigir comparação entre alternativas
+
+          ALTERNATIVAS:
+          - TODAS devem parecer corretas à primeira vista
+          - Diferenças devem ser sutis (configuração, arquitetura, trade-offs)
+          - Pelo menos 3 alternativas devem ser altamente plausíveis
+          - Inclua alternativas que representem erros comuns de implementação ou arquitetura
+          - NÃO use alternativas obviamente erradas
+
+          DISTRIBUIÇÃO:
+          - A resposta correta deve ser distribuída aleatoriamente entre A, B, C e D
+          - NÃO repetir padrão de resposta correta
+
+          VALIDAÇÃO INTERNA (ANTES DE RESPONDER):
+          - Pelo menos 3 alternativas são plausíveis
+          - A resposta exige análise técnica
+          - Não há opção obviamente errada
+
+          Instruções:
+          - Use terminologia oficial da Microsoft
+          - 4 alternativas (A, B, C, D), apenas uma correta
+          - Não use "todas as anteriores" ou "nenhuma das anteriores"
+          - Inclua explicação clara e objetiva, justificando por que a resposta correta é a melhor escolha
+          - topic_tag deve ser DERIVADO do subtopic escolhido e normalizado em slug`,
       },
       {
         role: 'user',
-        content: buildPrompt(examId, weakTopics, askedTopics, skills_measured),
+        content: question,
       },
     ],
-    temperature: 0.9,
+    temperature: 0.2,
   }, {
     signal: AbortSignal.timeout(15000),
   });
-
+ 
   const raw = completion.choices[0].message.content;
 
   if (!raw) {
@@ -141,4 +166,14 @@ export async function generateQuestion(
 
   const parsed = JSON.parse(raw);
   return QuestionSchema.parse(parsed);
+
+  // console.log('[RAW COMPLETION]', parsed);
+
+  // return {
+  //   question: "test",
+  //   options: { A: "A", B: "B", C: "C", D: "D" },
+  //   correct_answer: "A",
+  //   explanation: "test",
+  //   topic_tag: "test"
+  // };  
 }
