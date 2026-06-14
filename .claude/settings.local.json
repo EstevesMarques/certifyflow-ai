@@ -34,7 +34,15 @@
       "Bash(npx next *)",
       "Bash(npx supabase *)",
       "Bash(NEXT_PUBLIC_SUPABASE_URL=\"https://czcqxrosrxhzppmyqaol.supabase.co\" NEXT_PUBLIC_SUPABASE_ANON_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3F4cm9zcnhoenBwbXlxYW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTU0MjYsImV4cCI6MjA5MjA5MTQyNn0.Q-uh6Qo6h8fKncmXXpuNlLGxsBA6gEH6X26jPg5mv1g\" npx ts-node *)",
-      "mcp__plugin_claude-mem_mcp-search__smart_outline"
+      "mcp__plugin_claude-mem_mcp-search__smart_outline",
+      "Bash(git worktree *)",
+      "Bash(curl -s \"https://learn.microsoft.com/api/catalog/?type=exams\")",
+      "mcp__claude_ai_Supabase__get_advisors",
+      "Bash(node regen_batches.js)",
+      "Bash(node *)",
+      "Bash(curl -s -X POST \"https://czcqxrosrxhzppmyqaol.supabase.co/rest/v1/rpc/exec_sql\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3F4cm9zcnhoenBwbXlxYW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTU0MjYsImV4cCI6MjA5MjA5MTQyNn0.Q-uh6Qo6h8fKncmXXpuNlLGxsBA6gEH6X26jPg5mv1g\" -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3F4cm9zcnhoenBwbXlxYW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTU0MjYsImV4cCI6MjA5MjA5MTQyNn0.Q-uh6Qo6h8fKncmXXpuNlLGxsBA6gEH6X26jPg5mv1g\" -H \"Content-Type: application/json\" -d \"{\\\\\"query\\\\\":\\\\\"SELECT 1 as test\\\\\"}\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://certifyflow-ai.vercel.app/exam/AZ-900\")",
+      "Bash(curl *)"
     ]
   },
   "enableAllProjectMcpServers": true,

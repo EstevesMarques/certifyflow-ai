@@ -1,5 +1,4 @@
 import { Exam } from '@/types'
-export { STATIC_EXAMS } from '@/lib/static-exams'
 
 interface MicrosoftCatalogItem {
   uid: string
