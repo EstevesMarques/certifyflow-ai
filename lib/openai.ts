@@ -1,7 +1,6 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
 import { GeneratedQuestion } from '@/types';
-import { ExamTopic } from './exam-topics';
 
 interface SkillItem {
   topic: string
@@ -49,7 +48,8 @@ export function buildPrompt(
   examId: string,
   weakTopics: string[],
   askedTopics: string[] = [],
-  skills_measured?: SkillItem[] | null
+  skills_measured?: SkillItem[] | null,
+  learningContent?: string
 ): string {
   const topicLine = weakTopics.length > 0
     ? `Priorize os seguintes tópicos (onde o usuário tem maior dificuldade): ${weakTopics.join(', ')}.`
@@ -61,18 +61,20 @@ export function buildPrompt(
 
   const skillsSection =
     skills_measured && skills_measured.length > 0
-      ? `\n\nSKILLS OFICIAIS DO EXAME (USO OBRIGATÓRIO):\n${formatTopics(skills_measured)}`
-      : ''
+      ? `\n\nSKILLS OFICIAIS DO EXAME (USO OBRIGATÓRIO):\n${formatTopics(skills_measured)}\n\nREGRAS OBRIGATÓRIAS:\n- A questão DEVE ser baseada EXCLUSIVAMENTE nos skills listados acima\n- Escolha EXATAMENTE UM subtópico dos skills fornecidos\n- NÃO use conhecimento fora da lista de skills\n- Priorize tópicos com maior peso (weight) MAS NÃO ignore completamente tópicos de menor peso`
+      : `\n\nNOTA: Os skills oficiais deste exame não estão disponíveis. Use seu conhecimento sobre o exame ${examId} para gerar uma questão relevante e precisa.`
 
-  return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}${skillsSection}
+  const hasSkills = skills_measured && skills_measured.length > 0
 
-  REGRAS OBRIGATÓRIAS:
-  - A questão DEVE ser baseada EXCLUSIVAMENTE nos skills listados acima
-  - Escolha EXATAMENTE UM subtópicos dos skills fornecidos
-  - NÃO use conhecimento fora da lista de skills
-  - Priorize tópicos com maior peso (weight) MAS NÃO ignore completamente tópicos de menor peso
-  - Use tecnologias, serviços e ferramentas relevantes ao exame (${examId})
-  - A pergunta deve refletir cenário real de uso em produção (arquitetura, integração, troubleshooting)
+  const rulesSection = hasSkills
+    ? ``
+    : `\nREGRAS OBRIGATÓRIAS:\n- Use tecnologias, serviços e ferramentas relevantes ao exame (${examId})\n- A pergunta deve refletir cenário real de uso em produção (arquitetura, integração, troubleshooting)`
+
+  const contentSection = learningContent
+    ? `\n\n${learningContent}\n\nIMPORTANTE: Use o conteúdo acima como FONTE PRIMÁRIA para criar a questão. A questão deve testar conceitos e detalhes presentes neste conteúdo oficial do Microsoft Learn.`
+    : ''
+
+  return `Exame de certificação Microsoft: ${examId}. ${topicLine}${avoidLine}${skillsSection}${rulesSection}${contentSection}
 
   Gere UMA questão de múltipla escolha no estilo PearsonVue, simulando uma questão REAL de prova da Microsoft.
 
@@ -95,10 +97,11 @@ export async function generateQuestion(
   examId: string,
   weakTopics: string[],
   askedTopics: string[] = [],
-  skills_measured?: SkillItem[] | null
+  skills_measured?: SkillItem[] | null,
+  learningContent?: string
 ): Promise<GeneratedQuestion> {
 
-  const question = buildPrompt(examId, weakTopics, askedTopics, skills_measured);
+  const question = buildPrompt(examId, weakTopics, askedTopics, skills_measured, learningContent);
   //console.log('[AI INPUT QUESTION]', question);
 
   const completion = await openai.chat.completions.create({

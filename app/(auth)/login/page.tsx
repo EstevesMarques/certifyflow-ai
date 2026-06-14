@@ -23,10 +23,11 @@ export default function LoginPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      setError('Email ou senha incorretos.')
+      setError(error.message)
       setLoading(false)
       return
     }
+    router.refresh()
     router.push('/dashboard')
   }
 

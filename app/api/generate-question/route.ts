@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server-client'
 import { generateQuestion } from '@/lib/openai'
+import { getContentForTopics } from '@/lib/content-retriever'
 import { z } from 'zod'
 
 const BodySchema = z.object({
@@ -12,7 +13,7 @@ const BodySchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { examId, sessionId, askedTopics = [] } = BodySchema.parse(body)
+    const { examId, askedTopics = [] } = BodySchema.parse(body)
 
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -35,7 +36,12 @@ export async function POST(request: NextRequest) {
       .single()
 
     const skills_measured = exam?.skills_measured ?? null
-    const question = await generateQuestion(examId, weakTopics, askedTopics, skills_measured)
+
+    // Buscar conteúdo real do Microsoft Learn (DB ou skills_measured fallback)
+    const skillsTyped = skills_measured as import('@/types').SkillItem[] | null
+    const learningContent = await getContentForTopics(examId, weakTopics, skillsTyped, 2)
+
+    const question = await generateQuestion(examId, weakTopics, askedTopics, skills_measured, learningContent || undefined)
     return NextResponse.json(question)
   } catch (error) {
     if (error instanceof z.ZodError) {

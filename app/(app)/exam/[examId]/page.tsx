@@ -8,7 +8,7 @@ import { EXAM_TOPICS } from '@/lib/exam-topics'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, ExternalLink, Download } from 'lucide-react'
-import type { Exam } from '@/types'
+import type { Exam, SkillItem } from '@/types'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
@@ -21,11 +21,16 @@ const LEVEL_BADGE_VARIANT = {
 export default function ExamDetailPage() {
   const { examId } = useParams<{ examId: string }>()
   const [exam, setExam] = useState<Exam | null>(null)
-  const topics = EXAM_TOPICS[examId] ?? []
   const router = useRouter()
   const [totalQ, setTotalQ] = useState(20)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Use skills_measured from DB; fall back to static EXAM_TOPICS if empty
+  const dbSkills = exam?.skills_measured as SkillItem[] | undefined
+  const topics: SkillItem[] = (dbSkills && dbSkills.length > 0)
+    ? dbSkills
+    : (EXAM_TOPICS[examId] ?? []).map(t => ({ ...t, weight: '' }))
 
   useEffect(() => {
     if (!examId) return
@@ -174,6 +179,11 @@ export default function ExamDetailPage() {
                   >
                     <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
                       {section.topic}
+                      {section.weight && (
+                        <span className="ml-2 text-xs font-normal" style={{ color: 'var(--text-muted)' }}>
+                          {section.weight}%
+                        </span>
+                      )}
                     </div>
                     <div className="flex flex-col gap-2 pl-1">
                       {section.subtopics.map((sub) => (

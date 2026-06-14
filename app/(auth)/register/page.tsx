@@ -22,7 +22,7 @@ export default function RegisterPage() {
     setLoading(true)
     setError('')
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { full_name: fullName } },
@@ -32,7 +32,14 @@ export default function RegisterPage() {
       setLoading(false)
       return
     }
-    router.push('/dashboard')
+    // Se tem sessão, login direto; senão precisa confirmar email
+    if (data.session) {
+      router.refresh()
+      router.push('/dashboard')
+    } else {
+      setError('Conta criada! Verifique seu email para confirmar antes de fazer login.')
+      setLoading(false)
+    }
   }
 
   return (

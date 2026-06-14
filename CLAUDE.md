@@ -49,9 +49,10 @@ npm run test:watch # Jest in watch mode
 ### Key Directories
 
 - **`app/api/`** — Route Handlers
-  - `/generate-question` — Adaptive question generation (POST)
+  - `/generate-question` — Adaptive question generation with learning content enrichment (POST)
   - `/results` — Session result submission (POST)
-  - `/catalog` — Exam catalog proxy (GET)
+  - `/catalog` — Exam catalog proxy + sync (GET/POST)
+  - `/ingest` — Learning content ingestion from Microsoft Learn (GET/POST)
 
 - **`lib/supabase/`**
   - `browser-client.ts` — Client-side Supabase (Client Components only)
@@ -59,7 +60,9 @@ npm run test:watch # Jest in watch mode
 
 - **`lib/`**
   - `openai.ts` — `generateQuestion()` + `buildPrompt()` (called from Route Handlers only)
-  - `catalog.ts` — `fetchExams()` (Microsoft Catalog API with static fallback)
+  - `catalog.ts` — `fetchExams()` + `syncCatalog()` (Microsoft Catalog API → Supabase)
+  - `learn-ingest.ts` — `ingestExamContent()` (Microsoft Learn content: learning paths → modules → units)
+  - `content-retriever.ts` — `getRelevantContent()` (queries `learning_content` to enrich AI prompts)
 
 - **`components/`**
   - `Sidebar.tsx` — Navigation sidebar with theme toggle
@@ -75,8 +78,11 @@ npm run test:watch # Jest in watch mode
 `/api/generate-question` workflow:
 1. Query `question_attempts` grouped by `topic_tag`
 2. Find 3 topics with lowest correct-answer rate
-3. Pass to OpenAI with prompt asking for questions on those topics
-4. Return generated question with 4 options and explanation
+3. Fetch `skills_measured` from `exams` table (topic structure with weights)
+4. Query `learning_content` for real Microsoft Learn content on weak topics
+5. Build prompt with official learning content as primary source (not just topic names)
+6. Pass to OpenAI — model generates question based on real exam material
+7. Return generated question with 4 options and explanation
 
 ### Theme System
 
@@ -91,11 +97,10 @@ CSS custom properties in `app/globals.css`:
 
 **Tables**:
 - `profiles` — User metadata (id, email, display_name)
-- `exams` — Exam catalog (id: TEXT, title, exam_code, provider)
-- `exam_sessions` — User exam attempts (id, user_id, exam_id, total_q, score, passed, started_at, completed_at)
-- `question_attempts` — Individual question records (id, session_id, question_id, topic_tag, question_text, selected_option, correct_option, is_correct, time_spent_seconds)
-
-**Note**: `question_attempts` does NOT have `user_id` or `exam_id` columns directly — access via `session_id` -> `exam_sessions`.
+- `exams` — Exam catalog (id: TEXT, title, exam_code, provider, skills_measured JSONB, study_guide JSONB)
+- `exam_sessions` — User exam attempts (id, user_id, exam_id, total_q, score, started_at, completed_at)
+- `question_attempts` — Individual question records (id, session_id, user_id, exam_id, topic_tag, question_text, correct_answer, user_answer, is_correct, attempted_at)
+- `learning_content` — Microsoft Learn ingested content (id, exam_id, source_type, source_uid, title, summary, content, parent_uid, skills_tags[])
 
 **Security**:
 - All tables protected by RLS: `user_id = auth.uid()`
@@ -109,9 +114,8 @@ CSS custom properties in `app/globals.css`:
 2. `submitResults()` called with all answers
 3. `/api/results` receives: `{ sessionId, examId, answers[] }`
 4. Insert each answer into `question_attempts` with:
-   - `session_id` (NOT `user_id` or `exam_id`)
-   - `question_id` (generated via `crypto.randomUUID()`)
-   - `topic_tag`, `question_text`, `selected_option`, `correct_option`, `is_correct`
+   - `session_id`, `user_id`, `exam_id`
+   - `topic_tag`, `question_text`, `correct_answer`, `user_answer`, `is_correct`
 5. Update `exam_sessions` with `score`, `total_q`, `completed_at`
 6. Invalidate dashboard/progress cache via `revalidatePath()`
 7. Return `{ score, topicStats }` to client
@@ -172,8 +176,9 @@ OPENAI_API_KEY=sk-...
 
 ## Known Issues / TODO
 
+- [ ] Populate `skills_measured` for all exams (currently only AI-103 has it; others fall back to static `EXAM_TOPICS`)
+- [ ] Run `POST /api/ingest` to populate `learning_content` for exams with study guides
 - [ ] Add question flagging feature (UI exists, no backend)
-- [ ] Populate more Microsoft exam data (currently ~15 static exams)
 - [ ] Add certificate generation
 - [ ] Analytics dashboard for platform metrics
 - [ ] Export results as PDF
@@ -194,6 +199,7 @@ OPENAI_API_KEY=sk-...
 5. Check `/dashboard` and `/progress` to see recorded session + history
 
 **Important Schema Notes**:
-- `question_attempts` columns: `session_id`, `question_id`, `topic_tag`, `question_text`, `selected_option`, `correct_option`, `is_correct` — NO `user_id` or `exam_id`
-- When querying user attempts for stats, join via `exam_sessions`: `supabase.from('question_attempts').select(...).in('session_id', sessionIds)`
-- When inserting results, always generate `question_id` with `crypto.randomUUID()`
+- `question_attempts` columns: `session_id`, `user_id`, `exam_id`, `topic_tag`, `question_text`, `correct_answer`, `user_answer`, `is_correct` — includes `user_id` and `exam_id` for direct queries
+- Query user attempts directly: `supabase.from('question_attempts').select(...).eq('user_id', user.id)`
+- `learning_content` stores ingested Microsoft Learn material (units, modules, learning paths) linked to exams via `exam_id`
+- `exams.skills_measured` (JSONB) is the single source of truth for exam topics — static `EXAM_TOPICS` in `lib/exam-topics.ts` is kept as fallback only
