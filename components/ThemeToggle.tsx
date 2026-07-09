@@ -1,23 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
+function getStoredTheme(): { mounted: false; isDark: false } | { mounted: true; isDark: boolean } {
+  if (typeof window === 'undefined') return { mounted: false, isDark: false }
+  const stored = localStorage.getItem('theme')
+  const isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  return { mounted: true, isDark }
+}
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    const theme = document.documentElement.getAttribute('data-theme')
-    setIsDark(theme === 'dark')
-  }, [])
+  const [state] = useState(getStoredTheme)
+  const [isDark, setIsDark] = useState(state.isDark)
+  const mounted = state.mounted
 
   const toggleTheme = () => {
-    const html = document.documentElement
-    const isDarkNow = html.getAttribute('data-theme') === 'dark'
-    html.setAttribute('data-theme', isDarkNow ? 'light' : 'dark')
-    setIsDark(!isDarkNow)
-    localStorage.setItem('theme', isDarkNow ? 'light' : 'dark')
+    const next = !isDark
+    setIsDark(next)
+    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light')
+    localStorage.setItem('theme', next ? 'dark' : 'light')
   }
 
   if (!mounted) return null

@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { Exam } from '@/types'
 
 interface MicrosoftCatalogItem {
@@ -64,8 +66,6 @@ export function processExamItem(item: MicrosoftCatalogItem) {
 }
 
 export function saveSnapshot(items: MicrosoftCatalogItem[]): string {
-  const fs = require('fs')
-  const path = require('path')
   const date = new Date().toISOString().split('T')[0]
   const dir = path.join(process.cwd(), 'data', 'catalog')
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })

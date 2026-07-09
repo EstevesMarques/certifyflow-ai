@@ -12,8 +12,9 @@ CertifyFlow AI — Microsoft Certification Exam Simulator PWA. Guidance for Clau
 - ✅ Session management and results tracking
 - ✅ Theme system (light/dark mode)
 - ✅ Progress tracking page
-- ✅ Settings page
+- ✅ Settings page with BYOK (OpenAI, Anthropic, DeepSeek)
 - ✅ Results API — fully working (score calculation, topic stats, dashboard cache invalidation)
+- ✅ Multi-provider AI — user can bring their own API key for OpenAI/Anthropic/DeepSeek
 
 ## Commands
 
@@ -27,7 +28,7 @@ npm run test:watch # Jest in watch mode
 
 ## Architecture
 
-**Framework**: Next.js 14 (App Router, Server Components by default)
+**Framework**: Next.js 16 (App Router, Server Components by default)
 
 **Route Structure**:
 - `(auth)` — Public routes (login, register)
@@ -123,25 +124,27 @@ CSS custom properties in `app/globals.css`:
 ## Dependencies
 
 **Core**:
-- next@14.2.4
-- react@18, react-dom@18
+- next@16
+- react@19, react-dom@19
 - typescript@5
-- tailwindcss@3
-- @supabase/supabase-js
-- openai (for question generation)
+- tailwindcss@4
+- @supabase/ssr (replaces @supabase/supabase-js)
+- @anthropic-ai/sdk (BYOK multi-provider support)
+- openai (question generation + DeepSeek via OpenAI-compatible API)
 - framer-motion (animations)
 
 **UI**:
 - @base-ui/react (Button, Badge, etc.)
+- @heroicons/react (outline + solid icons)
 - class-variance-authority (CVA)
-- clsx/classnames
+- clsx
 
 ## Environment Variables
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://czcqxrosrxhzppmyqaol.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
-OPENAI_API_KEY=sk-...
+OPENAI_API_KEY=sk-...  # Fallback server key; users can BYOK via Settings
 ```
 
 ## Design System
@@ -168,7 +171,8 @@ OPENAI_API_KEY=sk-...
 
 ## Development Workflow
 
-1. **Sidebar** has hard-coded nav items → to make dynamic, fetch from user role/permissions
+1. **Sidebar** reads user identity from Supabase Auth (email, name, initials). Nav items still hardcoded.
+2. **Simulado** redirects to `/catalog` (routes unified — DRY).
 2. **Catalog** is read-only display + Link navigation
 3. **Exam Setup** (`/exam/{examId}`) creates `exam_sessions` record
 4. **Session** page polls `/api/generate-question` for each new question
@@ -176,13 +180,34 @@ OPENAI_API_KEY=sk-...
 
 ## Known Issues / TODO
 
-- [ ] Populate `skills_measured` for all exams (currently only AI-103 has it; others fall back to static `EXAM_TOPICS`)
+- [ ] Populate `skills_measured` for all exams (synced from Microsoft Catalog API; some exams still missing)
 - [ ] Run `POST /api/ingest` to populate `learning_content` for exams with study guides
 - [ ] Add question flagging feature (UI exists, no backend)
 - [ ] Add certificate generation
 - [ ] Analytics dashboard for platform metrics
 - [ ] Export results as PDF
 - [ ] Improve mobile responsiveness (sidebar collapse on small screens)
+
+## BYOK (Bring Your Own Key)
+
+Users can configure their own AI provider API key via `/settings`:
+- **OpenAI** — Uses `openai` SDK, model `gpt-4o-mini`
+- **Anthropic** — Uses `@anthropic-ai/sdk`, model `claude-sonnet-5-20251001`
+- **DeepSeek** — Uses OpenAI-compatible API via `https://api.deepseek.com`, model `deepseek-chat`
+
+**Storage**: `profiles.ai_provider` + `profiles.ai_api_key` (RLS-protected).
+**Endpoint**: `/api/settings/ai` (GET/POST).
+**Fallback**: If no user key is set, uses `OPENAI_API_KEY` from server env.
+**Abstraction**: `lib/ai-providers.ts` — `generateWithProvider(config, prompt)`.
+
+## Proxy (Next.js 16 Middleware)
+
+Next.js 16 deprecated `middleware.ts` in favor of `proxy.ts`:
+- File: `proxy.ts` at project root
+- Export: `export async function proxy(request: NextRequest)`
+- Config: `export const config = { matcher: [...] }`
+- Runtime: `nodejs` only (edge NOT supported in proxy)
+- Auth guard: redirects unauthenticated users to `/login`, authenticated users away from auth routes
 
 ## For Next Developer
 
@@ -203,3 +228,4 @@ OPENAI_API_KEY=sk-...
 - Query user attempts directly: `supabase.from('question_attempts').select(...).eq('user_id', user.id)`
 - `learning_content` stores ingested Microsoft Learn material (units, modules, learning paths) linked to exams via `exam_id`
 - `exams.skills_measured` (JSONB) is the single source of truth for exam topics — static `EXAM_TOPICS` in `lib/exam-topics.ts` is kept as fallback only
+- `profiles.ai_provider` + `profiles.ai_api_key` — BYOK settings (RLS-protected, per-user)

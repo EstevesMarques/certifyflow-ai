@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server-client'
 import { z } from 'zod'
-import { TopicStat } from '@/types'
+import { computeTopicStats } from '@/lib/topic-stats'
 
 const AnswerSchema = z.object({
   question_text: z.string(),
@@ -34,12 +34,13 @@ export async function POST(request: NextRequest) {
     const { error: attemptsError } = await supabase.from('question_attempts').insert(
       answers.map((a) => ({
         session_id: sessionId,
-        question_id: crypto.randomUUID(),
+        user_id: user.id,
+        exam_id: examId,
         topic_tag: a.topic_tag,
         is_correct: a.is_correct,
         question_text: a.question_text,
-        selected_option: a.user_answer,
-        correct_option: a.correct_answer,
+        user_answer: a.user_answer,
+        correct_answer: a.correct_answer,
       }))
     )
     if (attemptsError) throw attemptsError
@@ -64,23 +65,4 @@ export async function POST(request: NextRequest) {
     console.error('results error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
-}
-
-function computeTopicStats(
-  answers: { topic_tag: string; is_correct: boolean }[]
-): TopicStat[] {
-  const stats: Record<string, { total: number; correct: number }> = {}
-  for (const a of answers) {
-    if (!stats[a.topic_tag]) stats[a.topic_tag] = { total: 0, correct: 0 }
-    stats[a.topic_tag].total++
-    if (a.is_correct) stats[a.topic_tag].correct++
-  }
-  return Object.entries(stats)
-    .map(([topic_tag, { total, correct }]) => ({
-      topic_tag,
-      total,
-      correct,
-      pct: Math.round((correct / total) * 100),
-    }))
-    .sort((a, b) => a.pct - b.pct)
 }

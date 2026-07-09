@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server-client'
-import { generateQuestion } from '@/lib/openai'
+import { buildPrompt } from '@/lib/openai'
+import { generateWithProvider, getFallbackConfig } from '@/lib/ai-providers'
+import type { AIProvider, ProviderConfig } from '@/lib/ai-providers'
 import { getContentForTopics } from '@/lib/content-retriever'
 import { z } from 'zod'
 
@@ -41,7 +43,25 @@ export async function POST(request: NextRequest) {
     const skillsTyped = skills_measured as import('@/types').SkillItem[] | null
     const learningContent = await getContentForTopics(examId, weakTopics, skillsTyped, 2)
 
-    const question = await generateQuestion(examId, weakTopics, askedTopics, skills_measured, learningContent || undefined)
+    // Fetch user's AI provider config (BYOK) or fall back to server key
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('ai_provider, ai_api_key')
+      .eq('id', user.id)
+      .single()
+
+    let config: ProviderConfig
+    if (profile?.ai_api_key) {
+      config = {
+        provider: (profile.ai_provider as AIProvider) ?? 'openai',
+        apiKey: profile.ai_api_key,
+      }
+    } else {
+      config = getFallbackConfig()
+    }
+
+    const prompt = buildPrompt(examId, weakTopics, askedTopics, skills_measured, learningContent || undefined)
+    const question = await generateWithProvider(config, prompt)
     return NextResponse.json(question)
   } catch (error) {
     if (error instanceof z.ZodError) {

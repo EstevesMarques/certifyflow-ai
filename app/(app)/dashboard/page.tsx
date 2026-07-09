@@ -5,7 +5,7 @@ import PerformanceChart from '@/components/dashboard/PerformanceChart'
 import TopicBreakdown from '@/components/dashboard/TopicBreakdown'
 import HistoryTable from '@/components/dashboard/HistoryTable'
 import CTABanner from '@/components/dashboard/CTABanner'
-import { TopicStat } from '@/types'
+import { computeTopicStats } from '@/lib/topic-stats'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -91,19 +91,4 @@ export default async function DashboardPage() {
       </div>
     </>
   )
-}
-
-function computeTopicStats(attempts: { topic_tag: string; is_correct: boolean }[]): TopicStat[] {
-  const stats: Record<string, { total: number; correct: number }> = {}
-  for (const a of attempts) {
-    if (!stats[a.topic_tag]) stats[a.topic_tag] = { total: 0, correct: 0 }
-    stats[a.topic_tag].total++
-    if (a.is_correct) stats[a.topic_tag].correct++
-  }
-  return Object.entries(stats)
-    .map(([topic_tag, { total, correct }]) => ({
-      topic_tag, total, correct,
-      pct: Math.round((correct / total) * 100),
-    }))
-    .sort((a, b) => a.pct - b.pct)
 }

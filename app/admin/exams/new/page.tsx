@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { ExamLevel } from '@/types'
 
 export default function NewExamPage() {
   const router = useRouter()
@@ -10,7 +11,7 @@ export default function NewExamPage() {
     external_id: '',
     title: '',
     description: '',
-    level: 'Associate' as const,
+    level: 'Associate' as ExamLevel,
     roles: '',
     products: '',
     is_beta: false,
@@ -54,7 +55,7 @@ export default function NewExamPage() {
         </div>
         <div>
           <label className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">level</label>
-          <select value={form.level} onChange={e => setForm(f => ({ ...f, level: e.target.value as any }))}
+          <select value={form.level} onChange={e => setForm(f => ({ ...f, level: e.target.value as ExamLevel }))}
             className="w-full px-3 py-2 bg-[var(--bg-option)] border border-[var(--border)] rounded-[10px] text-sm">
             <option>Fundamentals</option>
             <option>Associate</option>

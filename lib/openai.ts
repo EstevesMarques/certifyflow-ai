@@ -34,16 +34,6 @@ function formatTopics(enriched: SkillItem[]) {
     .join('\n\n')
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/\s+&\s+/g, '-')
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
-}
-
 export function buildPrompt(
   examId: string,
   weakTopics: string[],

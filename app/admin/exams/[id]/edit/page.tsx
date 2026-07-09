@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from 'react'
 import { useRouter } from 'next/navigation'
+import type { Exam, ExamLevel } from '@/types'
 
 export default function EditExamPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -10,7 +11,7 @@ export default function EditExamPage({ params }: { params: Promise<{ id: string 
   const [form, setForm] = useState({
     title: '',
     description: '',
-    level: 'Associate' as const,
+    level: 'Associate' as ExamLevel,
     roles: '',
     products: '',
     is_beta: false,
@@ -20,7 +21,7 @@ export default function EditExamPage({ params }: { params: Promise<{ id: string 
     fetch('/api/catalog')
       .then(r => r.json())
       .then(data => {
-        const exam = (Array.isArray(data) ? data : []).find((e: any) => e.id === id)
+        const exam = (Array.isArray(data) ? data : []).find((e: Exam) => e.id === id)
         if (exam) {
           setForm({
             title: exam.title ?? '',
@@ -66,7 +67,7 @@ export default function EditExamPage({ params }: { params: Promise<{ id: string 
         </div>
         <div>
           <label className="block text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">level</label>
-          <select value={form.level} onChange={e => setForm(f => ({ ...f, level: e.target.value as any }))}
+          <select value={form.level} onChange={e => setForm(f => ({ ...f, level: e.target.value as ExamLevel }))}
             className="w-full px-3 py-2 bg-[var(--bg-option)] border border-[var(--border)] rounded-[10px] text-sm">
             <option>Fundamentals</option>
             <option>Associate</option>

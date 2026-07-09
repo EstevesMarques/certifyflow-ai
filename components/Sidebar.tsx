@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/browser-client'
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
@@ -22,6 +23,19 @@ export default function Sidebar() {
   const pathname = usePathname()
   const [syncing, setSyncing] = useState(false)
   const [syncResult, setSyncResult] = useState<string | null>(null)
+  const [user, setUser] = useState<{ email?: string; name?: string } | null>(null)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        setUser({
+          email: data.user.email,
+          name: data.user.user_metadata?.full_name ?? data.user.email?.split('@')[0],
+        })
+      }
+    })
+  }, [])
 
   const handleSync = async () => {
     setSyncing(true)
@@ -99,11 +113,14 @@ export default function Sidebar() {
       <div className="border-t border-[var(--border)] p-4 mt-auto">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
-            EM
+            {user?.name
+              ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+              : '??'
+            }
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-semibold text-[var(--text-secondary)]">Esteves Marques</div>
-            <div className="text-[10px] text-[var(--text-faint)] truncate">esteves@livingnet.com.br</div>
+            <div className="text-xs font-semibold text-[var(--text-secondary)]">{user?.name ?? 'Usuário'}</div>
+            <div className="text-[10px] text-[var(--text-faint)] truncate">{user?.email ?? ''}</div>
           </div>
         </div>
       </div>

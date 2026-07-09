@@ -1,0 +1,75 @@
+==========================================
+Learning Path: learn.wwl.develop-generative-ai-apps
+==========================================
+  [+] Módulo: Planejar e preparar-se para desenvolver soluções de IA no Azure
+      URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Selecionar, implantar e avaliar modelos do Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um aplicativo de chat de IA generativo com o Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver aplicativos de IA generativos que usam ferramentas
+      URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Otimizar o desempenho do modelo de IA gerador com o Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Implementar uma solução de IA de geração responsável no Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/?WT.mc_id=api_CatalogApi
+
+==========================================
+Learning Path: learn.wwl.develop-ai-agents-azure
+==========================================
+  [+] Módulo: Desenvolver agentes de IA com o Microsoft Foundry e o Visual Studio Code
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Integrar ferramentas personalizadas ao seu agente
+      URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Integrar ferramentas mcp com agentes de IA do Azure
+      URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar agentes de IA aprimorados com conhecimento com o IQ do Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Integrar seu agente ao Microsoft 365
+      URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar fluxos de trabalho controlados por agente usando o Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um agente de IA com o Microsoft Agent Framework
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Orquestrar uma solução de vários agentes usando o Microsoft Agent Framework
+      URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Descobrir agentes de IA do Azure com a A2A
+      URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/?WT.mc_id=api_CatalogApi
+
+==========================================
+Learning Path: learn.wwl.develop-language-solutions-azure-ai
+==========================================
+  [+] Módulo: Analisar texto com a Linguagem do Azure no Foundry Tools
+      URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um agente de análise de texto com o servidor MCP de Linguagem do Azure
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um aplicativo de IA gerador com capacidade de fala
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar aplicativos com reconhecimento de fala usando o Azure Speech nas ferramentas do Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um agente de fala com o servidor MCP de Fala do Azure
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Desenvolver um agente do Azure Speech Voice Live no Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Traduzir texto e fala com as Ferramentas do Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/?WT.mc_id=api_CatalogApi
+
+==========================================
+Learning Path: learn.extract-insights-visual-data-azure
+==========================================
+  [+] Módulo: Desenvolver um aplicativo de IA gerativa com capacidade de processamento visual
+      URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Gerar imagens com IA
+      URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Gerar vídeos com o Microsoft Foundry
+      URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Analisar imagens com o Content Understanding
+      URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar uma solução de análise multimodal com o Azure Content Understanding
+      URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar um aplicativo cliente do Azure Content Understanding
+      URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Extrair dados com o Azure Document Intelligence
+      URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/?WT.mc_id=api_CatalogApi
+  [+] Módulo: Criar uma solução de mineração de conhecimento com o Azure AI Search
+      URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/?WT.mc_id=api_CatalogApi

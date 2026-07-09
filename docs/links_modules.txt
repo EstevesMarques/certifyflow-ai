@@ -1,0 +1,329 @@
+Modulo: Planejar e preparar-se para desenvolver soluções de IA no Azure
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/2-what-is-ai
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/3-azure-ai-foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/4-azure-ai-services
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/5-tools-and-sdks
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/6-responsible-ai
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/7-exercise-explore-ai-foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/prepare-azure-ai-development/9-summary
+
+Modulo: Selecionar, implantar e avaliar modelos do Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/2-explore-model-catalog
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/3-select-models-benchmarks
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/4-deploy-models
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/5-evaluate-performance
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/model-catalog-evaluate/8-summary
+
+Modulo: Desenvolver um aplicativo de chat de IA generativo com o Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/2-chat-playground
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/3-microsoft-foundry-sdk
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/4-responses-api
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/5-openai-api
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/foundry-sdk/8-summary
+
+Modulo: Desenvolver aplicativos de IA generativos que usam ferramentas
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/2-tools
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/3-code-interpreter
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/4-web-search
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/5-file-search
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/6-functions
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/7-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/use-generative-ai-tools/9-summary
+
+Modulo: Otimizar o desempenho do modelo de IA gerador com o Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/2-prompt-engineering
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/3-retrieval-augmented-generation
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/4-fine-tune-model
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/5-compare-combine-strategies
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/optimize-generative-ai-model-performance/8-summary
+
+Modulo: Implementar uma solução de IA de geração responsável no Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/2-plan-responsible-ai
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/3-identify-harms
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/4-measure-harms
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/5-mitigate-harms
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/6-operate-responsibly
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/7-exercise-content-filters
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/responsible-ai-studio/9-summary
+
+Modulo: Desenvolver agentes de IA com o Microsoft Foundry e o Visual Studio Code
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/2-understand-ai-agents-foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/3-explore-development-approaches
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/4-build-agent-azure-portal
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/5-set-up-vs-code
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/6-configure-manage-agents
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/7-extend-agent-capabilities
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/8-test-deploy-integrate
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/9-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/10-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agents-azure-vs-code/11-summary
+
+Modulo: Integrar ferramentas personalizadas ao seu agente
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/2-why-use-custom-tools
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/3-custom-tool-options
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/4-how-use-custom-tools
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-with-custom-tools/7-summary
+
+Modulo: Integrar ferramentas mcp com agentes de IA do Azure
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/2-understand-mcp-tool-discovery
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/3-mcp-client-server-setup
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/4-use-azure-ai-agents-with-mcp
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/connect-agent-to-mcp-tools/7-summary
+
+Modulo: Criar agentes de IA aprimorados com conhecimento com o IQ do Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/2-understand-rag
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/3-foundry-iq
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/4-data-requirements
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/5-configure-retrieval
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/introduction-foundry-iq/8-summary
+
+Modulo: Integrar seu agente ao Microsoft 365
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/2-understand-publishing-options
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/3-publish-agent-foundry-portal
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/4-agents-toolkit-advanced
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/5-access-m365-data-workiq
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/6-test-iterate-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/7-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/integrate-foundry-agent-with-m365/9-summary
+
+Modulo: Criar fluxos de trabalho controlados por agente usando o Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/2-understand-workflows
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/3-identify-workflow-patterns
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/4-create-workflows-microsoft-foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/5-add-agents-to-workflow
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/6-apply-power-fx
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/7-maintain-workflows
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/8-use-workflows-in-code
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/9-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/10-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/build-agent-workflows-microsoft-foundry/11-summary
+
+Modulo: Desenvolver um agente de IA com o Microsoft Agent Framework
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/2-understand-semantic-kernel-agents
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/3-create-azure-ai-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/4-add-plugins-to-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-ai-agent-with-semantic-kernel/7-summary
+
+Modulo: Orquestrar uma solução de vários agentes usando o Microsoft Agent Framework
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/2-understand-agent-framework
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/3-understand-agent-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/4-use-concurrent-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/5-use-sequential-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/6-use-group-chat-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/7-use-handoff-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/8-use-magentic-orchestration
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/9-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/10-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/orchestrate-semantic-kernel-multi-agent-solution/11-summary
+
+Modulo: Descobrir agentes de IA do Azure com a A2A
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/2-define-a2a-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/3-implement-agent-executor
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/4-host-a2a-agent-server
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/5-connect-to-a2a-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/discover-agents-with-a2a/8-summary
+
+Modulo: Analisar texto com a Linguagem do Azure no Foundry Tools
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/2-provision-resource
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/3-detect-language
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/4-extract-entitites
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/5-extract-personal-information
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-text-ai-language/8-summary
+
+Modulo: Desenvolver um agente de análise de texto com o servidor MCP de Linguagem do Azure
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/2-understand-language-mcp
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/3-connect-use-language-mcp
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/4-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/5-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-text-analysis-agent-language-mcp/6-summary
+
+Modulo: Desenvolver um aplicativo de IA gerador com capacidade de fala
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/2-deploy-multimodal-models
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/3-develop-audio-chat-apps
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/4-develop-speech-apps
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-audio-apps/7-summary
+
+Modulo: Criar aplicativos com reconhecimento de fala usando o Azure Speech nas ferramentas do Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/2-create-speech-resource
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/3-speech-to-text
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/4-text-to-speech
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/5-audio-format-voices
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/6-speech-synthesis-markup
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/7-exercise-speech-app
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/create-speech-enabled-apps/9-summary
+
+Modulo: Desenvolver um agente de fala com o servidor MCP de Fala do Azure
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/2-understand-speech-mcp
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/3-connect-use-speech-mcp
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/4-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/5-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-speech-agent-speech-mcp/6-summary
+
+Modulo: Desenvolver um agente do Azure Speech Voice Live no Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/2-voice-live-api
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/3-voice-live-sdk
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/4-voice-live-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/5-exercise-develop-agent
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-voice-live-agent/7-summary
+
+Modulo: Traduzir texto e fala com as Ferramentas do Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/2-translation-in-foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/3-azure-translator
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/4-speech-translation
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/5-exercise-translate
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/translate-text-speech/7-summary
+
+Modulo: Desenvolver um aplicativo de IA gerativa com capacidade de processamento visual
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/2-deploy-multimodal-models
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/3-develop-visual-chat-apps
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/4-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/5-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/develop-generative-ai-vision-apps/6-summary
+
+Modulo: Gerar imagens com IA
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/2-what-is-dall-e
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/3-dall-e-in-openai-studio
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/4-dall-e-rest-api
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/5-exercise-use-dall-e
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-images-azure-openai/7-summary
+
+Modulo: Gerar vídeos com o Microsoft Foundry
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/2-deploy-video-model
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/3-generate-video-from-prompt
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/4-generate-video-in-python
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/generate-video-with-foundry/7-summary
+
+Modulo: Analisar imagens com o Content Understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/2-what-is-content-understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/3-analyze-images-with-content-understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/4-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/5-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-images-with-content-understanding/6-summary
+
+Modulo: Criar uma solução de análise multimodal com o Azure Content Understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/2-content-understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/3-create-analyzer
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/4-use-api
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai/7-summary
+
+Modulo: Criar um aplicativo cliente do Azure Content Understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/2-prepare-content-understanding
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/3-create-analyzer
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/4-analyze
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/5-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/6-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/analyze-content-ai-api/7-summary
+
+Modulo: Extrair dados com o Azure Document Intelligence
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/2-what-is-document-intelligence
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/3-use-document-intelligence-studio
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/4-use-prebuilt-models
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/5-train-custom-models
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/6-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/7-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/extract-data-with-document-intelligence/8-summary
+
+Modulo: Criar uma solução de mineração de conhecimento com o Azure AI Search
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/1-introduction
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/2-azure-ai-search
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/3-indexing
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/4-ai-skills
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/5-search-index
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/6-knowledge-store
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/7-exercise
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/8-knowledge-check
+URL: https://learn.microsoft.com/pt-br/training/modules/ai-knowldge-mining/9-summary
+
+
+
+https://microsoftlearning.github.io/mslearn-ai-studio/Instructions/Exercises/01-Explore-ai-studio.html
+https://microsoftlearning.github.io/mslearn-ai-studio/Instructions/Exercises/02-model-catalog-evaluation.html
+https://microsoftlearning.github.io/mslearn-ai-studio/Instructions/Exercises/03-foundry-sdk.html
+https://microsoftlearning.github.io/mslearn-ai-studio/Instructions/Exercises/04a-use-own-data.html
+https://microsoftlearning.github.io/mslearn-ai-studio/Instructions/Exercises/04b-finetune-model.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/01-build-agent-portal-and-vscode.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/02-agent-custom-tools.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/03-mcp-integration.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/09-integrate-agent-with-foundry-iq.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/05a-m365-teams-integration.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/05b-work-iq-integration.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/06-build-workflow-ms-foundry.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/07-agent-framework.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/08-agent-framework-multi-agents.html
+https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/09-multi-remote-agents-with-a2a.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/01-analyze-text.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/02-language-agent.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/03-gen-ai-speech.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/04-azure-speech.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/05-azure-speech-mcp.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/06-voice-live-agent.html
+https://microsoftlearning.github.io/mslearn-ai-language/Instructions/Exercises/07-translation.html
+https://microsoftlearning.github.io/mslearn-ai-vision/Instructions/Exercises/01-gen-ai-vision.html
+https://microsoftlearning.github.io/mslearn-ai-vision/Instructions/Exercises/02-generate-image.html
+https://microsoftlearning.github.io/mslearn-ai-vision/Instructions/Exercises/03-generate-video.html
+https://microsoftlearning.github.io/mslearn-ai-vision/Instructions/Exercises/04-content-understanding.html
+https://microsoftlearning.github.io/mslearn-ai-information-extraction/Instructions/Exercises/01-content-understanding.html
+https://microsoftlearning.github.io/mslearn-ai-information-extraction/Instructions/Exercises/02-content-understanding-api.html
+https://microsoftlearning.github.io/mslearn-ai-information-extraction/Instructions/Exercises/03-document-intelligence.html
+https://microsoftlearning.github.io/mslearn-ai-information-extraction/Instructions/Exercises/04-knowledge-mining.html
