@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import { Exam } from '@/types'
 
 interface MicrosoftCatalogItem {
@@ -65,20 +63,10 @@ export function processExamItem(item: MicrosoftCatalogItem) {
   }
 }
 
-export function saveSnapshot(items: MicrosoftCatalogItem[]): string {
-  const date = new Date().toISOString().split('T')[0]
-  const dir = path.join(process.cwd(), 'data', 'catalog')
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
-  const filePath = path.join(dir, `catalog-${date}.json`)
-  fs.writeFileSync(filePath, JSON.stringify({ timestamp: new Date().toISOString(), items }, null, 2))
-  return filePath
-}
-
 export async function syncCatalog(): Promise<{ total: number; inserted: number; updated: number }> {
   const { createClient } = await import('@/lib/supabase/server-client')
   const sb = await createClient()
   const items = await fetchFromMicrosoft()
-  saveSnapshot(items)
   let inserted = 0, updated = 0
   for (const item of items) {
     const processed = processExamItem(item)
