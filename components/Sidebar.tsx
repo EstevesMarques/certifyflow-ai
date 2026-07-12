@@ -7,14 +7,12 @@ import { createClient } from '@/lib/supabase/browser-client'
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
-  PlayCircleIcon,
   ChartBarIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline'
 import {
   HomeIcon as HomeIconSolid,
   ClipboardDocumentListIcon as ClipboardDocumentListIconSolid,
-  PlayCircleIcon as PlayCircleIconSolid,
   ChartBarIcon as ChartBarIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
 } from '@heroicons/react/24/solid'
@@ -59,7 +57,6 @@ export default function Sidebar() {
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', Icon: HomeIcon, ActiveIcon: HomeIconSolid },
     { label: 'Catálogo', href: '/catalog', Icon: ClipboardDocumentListIcon, ActiveIcon: ClipboardDocumentListIconSolid },
-    { label: 'Simulado', href: '/simulado', Icon: PlayCircleIcon, ActiveIcon: PlayCircleIconSolid },
     { label: 'Progresso', href: '/progress', Icon: ChartBarIcon, ActiveIcon: ChartBarIconSolid },
     { label: 'Exames', href: '/admin/exams', Icon: ClipboardDocumentListIcon, ActiveIcon: ClipboardDocumentListIconSolid },
     { label: 'Configurações', href: '/settings', Icon: Cog6ToothIcon, ActiveIcon: Cog6ToothIconSolid },

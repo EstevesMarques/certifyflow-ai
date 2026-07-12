@@ -9,7 +9,6 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 const pageTitles: Record<string, string> = {
   '/dashboard': 'Dashboard',
   '/catalog': 'Catálogo de Exames',
-  '/simulado': 'Iniciar Simulado',
   '/progress': 'Meu Progresso',
   '/settings': 'Configurações',
 }
