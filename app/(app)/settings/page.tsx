@@ -28,7 +28,6 @@ export default function SettingsPage() {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
 
-      // Fetch current AI settings
       const res = await fetch('/api/settings/ai')
       if (res.ok) {
         const data = await res.json()
@@ -67,50 +66,49 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-screen">
-        <p style={{ color: 'var(--text-muted)' }}>Carregando...</p>
+      <div className="p-8 flex items-center justify-center min-h-screen">
+        <p className="text-[14px] font-medium" style={{ color: 'var(--text-muted)' }}>Carregando...</p>
       </div>
     )
   }
 
   return (
-    <div className="p-4 lg:p-6">
-      <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Configurações</h1>
-      <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
+    <div className="p-6 lg:p-8">
+      <h1 className="text-2xl font-bold tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>Configurações</h1>
+      <p className="text-[14px] mb-8" style={{ color: 'var(--text-secondary)' }}>
         Gerencie suas preferências e conta.
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-5 max-w-2xl">
         {/* Account Info */}
-        <div className="rounded-[10px] border p-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-          <h2 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+        <div className="glass-card" style={{ padding: '22px' }}>
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-faint)' }}>
             Informações da Conta
           </h2>
-          <div className="space-y-3">
-            <div>
-              <div className="text-xs font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Email</div>
-              <p style={{ color: 'var(--text-primary)' }}>{user?.email}</p>
-            </div>
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-faint)' }}>Email</div>
+            <p className="text-[15px] font-medium" style={{ color: 'var(--text-primary)' }}>{user?.email}</p>
           </div>
         </div>
 
-        {/* AI Provider (BYOK) */}
-        <div className="rounded-[10px] border p-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-          <h2 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+        {/* AI Provider */}
+        <div className="glass-card" style={{ padding: '22px' }}>
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-faint)' }}>
             Provedor de IA (BYOK)
           </h2>
-          <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[13px] mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             Configure sua própria chave de API para gerar questões. Se não configurada, usamos a chave do servidor.
           </p>
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <label className="text-xs uppercase tracking-wider block mb-1" style={{ color: 'var(--text-muted)' }}>
+              <label className="text-[11px] font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-faint)' }}>
                 Provedor
               </label>
               <select
                 value={provider}
                 onChange={e => setProvider(e.target.value as AIProvider)}
-                className="w-full px-3 py-2 bg-[var(--bg-option)] border border-[var(--border)] rounded-[10px] text-sm"
+                className="w-full px-4 py-3 glass-input text-sm"
+                style={{ borderRadius: 'var(--radius-sm)' }}
               >
                 {PROVIDERS.map(p => (
                   <option key={p.value} value={p.value}>{p.label}</option>
@@ -118,25 +116,27 @@ export default function SettingsPage() {
               </select>
             </div>
             <div>
-              <label className="text-xs uppercase tracking-wider block mb-1" style={{ color: 'var(--text-muted)' }}>
-                API Key {hasKey && <span className="text-green-500 ml-1">● Configurada</span>}
+              <label className="text-[11px] font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-faint)' }}>
+                API Key {hasKey && <span style={{ color: 'var(--accent-success)' }}>● Configurada</span>}
               </label>
               <input
                 type="password"
                 value={apiKey}
                 onChange={e => setApiKey(e.target.value)}
                 placeholder={PROVIDERS.find(p => p.value === provider)?.placeholder ?? 'sua-api-key'}
-                className="w-full px-3 py-2 bg-[var(--bg-option)] border border-[var(--border)] rounded-[10px] text-sm"
+                className="w-full glass-input text-sm"
+                style={{ borderRadius: 'var(--radius-sm)' }}
               />
             </div>
             {message && (
-              <p className="text-xs" style={{ color: message.startsWith('✅') ? '#16a34a' : '#ef4444' }}>{message}</p>
+              <p className="text-[13px] font-medium" style={{ color: message.startsWith('✅') ? 'var(--accent-success)' : 'var(--accent-danger)' }}>
+                {message}
+              </p>
             )}
             <Button
               onClick={handleSaveAI}
               disabled={saving}
               className="w-full"
-              style={{ background: 'var(--accent)', color: '#fff' }}
             >
               {saving ? 'Salvando...' : 'Salvar Configuração'}
             </Button>
@@ -144,47 +144,41 @@ export default function SettingsPage() {
         </div>
 
         {/* Preferences */}
-        <div className="rounded-[10px] border p-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-          <h2 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+        <div className="glass-card" style={{ padding: '22px' }}>
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-faint)' }}>
             Preferências
           </h2>
           <div className="space-y-3">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 defaultChecked
-                className="w-4 h-4 rounded"
-                style={{ borderColor: 'var(--border)' }}
+                className="w-4 h-4 rounded accent-[var(--accent)]"
               />
-              <span style={{ color: 'var(--text-primary)' }}>Notificações de progresso</span>
+              <span className="text-[14px] font-medium" style={{ color: 'var(--text-primary)' }}>Notificações de progresso</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 defaultChecked
-                className="w-4 h-4 rounded"
-                style={{ borderColor: 'var(--border)' }}
+                className="w-4 h-4 rounded accent-[var(--accent)]"
               />
-              <span style={{ color: 'var(--text-primary)' }}>Modo escuro automático</span>
+              <span className="text-[14px] font-medium" style={{ color: 'var(--text-primary)' }}>Modo escuro automático</span>
             </label>
           </div>
         </div>
 
         {/* Logout */}
-        <div className="rounded-[10px] border p-4" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-          <h2 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+        <div className="glass-card" style={{ padding: '22px' }}>
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-faint)' }}>
             Sessão
           </h2>
           <Button
-            variant="outline"
+            variant="destructive"
             className="w-full"
             onClick={handleLogout}
-            style={{
-              borderColor: '#ef4444',
-              color: '#ef4444',
-            }}
           >
-            Sair
+            Sair da conta
           </Button>
         </div>
       </div>

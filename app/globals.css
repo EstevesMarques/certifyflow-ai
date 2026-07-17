@@ -1,48 +1,212 @@
 @import "tailwindcss";
 
+/* ── Aurora Gradient Background ── */
 :root[data-theme="light"] {
-  --bg-page: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-option: #f3f4f6;
-  --bg-option-hover: #f0f7ff;
-  --bg-option-selected: #eff6ff;
-  --border: #e2e8f0;
-  --border-option: #e5e7eb;
-  --border-selected: #0078d4;
-  --text-primary: #111827;
-  --text-secondary: #374151;
-  --text-muted: #6b7280;
-  --text-faint: #9ca3af;
-  --accent: #0078d4;
-  --accent-hover: #106ebe;
-  --progress-bg: #e5e7eb;
-  --sidebar-bg: #ffffff;
+  --aurora-1: #DCEFF5;
+  --aurora-2: #F4E5D3;
+  --aurora-base: #FDFCFB;
+  --aurora-mid: #F8F6F3;
+
+  /* Glass surfaces */
+  --bg-card: rgba(255, 255, 255, 0.45);
+  --bg-card-solid: rgba(255, 255, 255, 0.75);
+  --bg-sidebar: rgba(255, 255, 255, 0.35);
+  --bg-option: rgba(255, 255, 255, 0.30);
+  --bg-option-hover: rgba(255, 255, 255, 0.55);
+  --bg-option-selected: rgba(255, 255, 255, 0.65);
+
+  /* Text */
+  --text-primary: #1A1C1E;
+  --text-secondary: #6E7175;
+  --text-muted: #8B8E92;
+  --text-faint: #A8ABAF;
+
+  /* Accent */
+  --accent: #111315;
+  --accent-hover: #2A2D30;
+  --accent-success: #34A853;
+  --accent-danger: #E53935;
+
+  /* Borders & glass */
+  --border: rgba(255, 255, 255, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.2);
+  --border-selected: rgba(17, 19, 21, 0.3);
+
+  /* Shadows */
+  --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+  --shadow-button: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+  /* Radii */
+  --radius-card: 24px;
+  --radius-sm: 16px;
+  --radius-pill: 9999px;
+
+  /* Misc */
+  --progress-bg: rgba(0, 0, 0, 0.06);
+  --sidebar-bg: rgba(255, 255, 255, 0.35);
+  --toggle-bg: #D1D5DB;
 }
 
 :root[data-theme="dark"] {
-  --bg-page: #0f1117;
-  --bg-card: #1a1d27;
-  --bg-option: #252836;
-  --bg-option-hover: #1e2d42;
-  --bg-option-selected: #1a2f4a;
-  --border: #2d3148;
-  --border-option: #2d3148;
-  --border-selected: #0078d4;
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-faint: #64748b;
-  --accent: #0078d4;
-  --accent-hover: #1a8fe8;
-  --progress-bg: #2d3148;
-  --sidebar-bg: #13151f;
+  --aurora-1: #1a1d2e;
+  --aurora-2: #1a1a24;
+  --aurora-base: #0B0D14;
+  --aurora-mid: #11131A;
+
+  /* Glass surfaces — darker */
+  --bg-card: rgba(20, 22, 30, 0.50);
+  --bg-card-solid: rgba(20, 22, 30, 0.75);
+  --bg-sidebar: rgba(14, 16, 22, 0.45);
+  --bg-option: rgba(20, 22, 30, 0.35);
+  --bg-option-hover: rgba(20, 22, 30, 0.60);
+  --bg-option-selected: rgba(20, 22, 30, 0.70);
+
+  /* Text */
+  --text-primary: #EEF0F4;
+  --text-secondary: #B0B4BB;
+  --text-muted: #7C8088;
+  --text-faint: #5C6068;
+
+  /* Accent */
+  --accent: #EEF0F4;
+  --accent-hover: #FFFFFF;
+  --accent-success: #4ADE80;
+  --accent-danger: #F87171;
+
+  /* Borders & glass */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-selected: rgba(255, 255, 255, 0.2);
+
+  /* Shadows */
+  --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.20);
+  --shadow-button: 0 2px 12px rgba(0, 0, 0, 0.25);
+
+  /* Radii */
+  --radius-card: 24px;
+  --radius-sm: 16px;
+  --radius-pill: 9999px;
+
+  /* Misc */
+  --progress-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-bg: rgba(14, 16, 22, 0.45);
+  --toggle-bg: #3D4048;
 }
 
+/* ── Reset ── */
 * { box-sizing: border-box; }
 
+/* ── Body with Aurora ── */
 body {
-  background: var(--bg-page);
   color: var(--text-primary);
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  transition: background 0.25s, color 0.25s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 10%, var(--aurora-1) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 80% 90%, var(--aurora-2) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, var(--aurora-base) 0%, var(--aurora-mid) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  transition: color 0.3s;
+}
+
+/* ── Glass utility classes ── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-card-solid {
+  background: var(--bg-card-solid);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-sidebar {
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-surface {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Pill button ── */
+.btn-pill {
+  border-radius: var(--radius-pill);
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: var(--accent);
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: all 0.2s;
+}
+.btn-pill:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+}
+.btn-pill:active {
+  transform: translateY(0);
+}
+
+/* Light-mode accent buttons get white text; dark-mode accent is light */
+:root[data-theme="dark"] .btn-pill {
+  color: #0B0D14;
+  background: var(--accent);
+}
+:root[data-theme="dark"] .btn-pill:hover {
+  background: #FFFFFF;
+}
+
+/* ── Glass input ── */
+.glass-input {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.glass-input:focus {
+  border-color: var(--border-selected);
+  box-shadow: 0 0 0 3px rgba(17, 19, 21, 0.06);
+}
+.glass-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--text-faint);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── Selection ── */
+::selection {
+  background: rgba(17, 19, 21, 0.12);
+  color: var(--text-primary);
 }

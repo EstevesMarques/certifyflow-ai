@@ -63,61 +63,66 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="w-[220px] h-full flex-shrink-0 bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-0 flex flex-col transition-all">
-      <div className="border-b border-[var(--border)] px-6 h-14 flex items-center">
+    <aside className="w-[220px] h-full flex-shrink-0 glass-sidebar border-r border-[var(--border)] p-0 flex flex-col transition-all">
+      {/* Brand */}
+      <div className="border-b border-[var(--border-subtle)] px-6 h-14 flex items-center">
         <div>
-          <div className="text-sm font-[800] text-[var(--accent)] tracking-tight">CertifyFlow</div>
-          <div className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider">AI · Microsoft Certs</div>
+          <div className="text-sm font-[800] text-[var(--text-primary)] tracking-tight">CertifyFlow</div>
+          <div className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider font-medium">AI · Microsoft Certs</div>
         </div>
       </div>
 
       <nav className="flex-1 flex flex-col">
-        <div className="flex-1">
+        <div className="flex-1 py-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors ${
+                className={`flex items-center gap-2.5 mx-3 px-4 py-2.5 text-[13px] font-medium transition-all rounded-[14px] ${
                   isActive
-                    ? 'text-[var(--accent)] bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]'
-                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]'
+                    ? 'text-[var(--text-primary)] bg-[var(--bg-option-selected)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option-hover)]'
                 }`}
               >
                 {isActive
-                  ? <item.ActiveIcon className="w-4 h-4" />
-                  : <item.Icon className="w-4 h-4" />
+                  ? <item.ActiveIcon className="w-[18px] h-[18px]" />
+                  : <item.Icon className="w-[18px] h-[18px]" />
                 }
                 {item.label}
               </Link>
             )
           })}
         </div>
-        <button
-          onClick={handleSync}
-          disabled={syncing}
-          className="w-full flex items-center gap-2.5 px-5 py-2 text-xs font-medium transition-colors disabled:opacity-50 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option)]"
-        >
-          <span className="w-4 text-center">{syncing ? '⏳' : '🔄'}</span>
-          {syncing ? 'Sincronizando...' : 'Atualizar catálogo'}
-        </button>
-        {syncResult && (
-          <div className="px-5 py-1.5 text-[10px] text-[var(--text-faint)]">{syncResult}</div>
-        )}
+        {/* Sync button */}
+        <div className="px-3 pb-2">
+          <button
+            onClick={handleSync}
+            disabled={syncing}
+            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] font-medium transition-all disabled:opacity-50 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-option-hover)] rounded-[14px]"
+          >
+            <span className="w-[18px] text-center text-sm">{syncing ? '⏳' : '🔄'}</span>
+            {syncing ? 'Sincronizando...' : 'Atualizar catálogo'}
+          </button>
+          {syncResult && (
+            <div className="px-4 py-1.5 text-[10px] text-[var(--text-faint)] leading-relaxed">{syncResult}</div>
+          )}
+        </div>
       </nav>
 
-      <div className="border-t border-[var(--border)] p-4 mt-auto">
+      {/* User footer */}
+      <div className="border-t border-[var(--border-subtle)] p-4 mt-auto">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-[var(--accent)] text-white text-xs font-bold flex items-center justify-center flex-shrink-0 ring-2 ring-[var(--border)]">
             {user?.name
               ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
               : '??'
             }
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-semibold text-[var(--text-secondary)]">{user?.name ?? 'Usuário'}</div>
-            <div className="text-[10px] text-[var(--text-faint)] truncate">{user?.email ?? ''}</div>
+            <div className="text-[13px] font-semibold text-[var(--text-primary)]">{user?.name ?? 'Usuário'}</div>
+            <div className="text-[11px] text-[var(--text-faint)] truncate">{user?.email ?? ''}</div>
           </div>
         </div>
       </div>

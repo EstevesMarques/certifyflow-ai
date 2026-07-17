@@ -51,44 +51,42 @@ export default async function DashboardPage() {
   const correctAttempts = attempts?.filter((a) => a.is_correct).length ?? 0
 
   return (
-    <>
-      <div className="flex-1 overflow-auto">
-        <div className="p-4 lg:p-6 space-y-5">
-          {totalSims > 0 && (
-            <CTABanner
-              examId={lastExamId}
-              examTitle={lastExamId}
-              weakTopics={weakTopics}
-            />
-          )}
+    <div className="flex-1 overflow-auto">
+      <div className="p-6 lg:p-8 space-y-6">
+        {totalSims > 0 && (
+          <CTABanner
+            examId={lastExamId}
+            examTitle={lastExamId}
+            weakTopics={weakTopics}
+          />
+        )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-            <StatCard label="Simulados feitos" value={totalSims} sub="+3 esta semana" />
-            <StatCard label="Média geral" value={`${avgScore}%`} accent sub="↑ 6pp vs semana passada" />
-            <StatCard label="Questões respondidas" value={totalAttempts} sub={`${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}% de acerto`} />
-            <StatCard
-              label="Melhor exame"
-              value={allSessions.length > 0 ? allSessions.reduce((a, b) => a.score > b.score ? a : b).exam_id : '—'}
-              sub={allSessions.length > 0 ? `Score: ${allSessions.reduce((a, b) => a.score > b.score ? a : b).score}%` : ''}
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <StatCard label="Simulados feitos" value={totalSims} sub="+3 esta semana" />
+          <StatCard label="Média geral" value={`${avgScore}%`} accent sub="↑ 6pp vs semana passada" />
+          <StatCard label="Questões respondidas" value={totalAttempts} sub={`${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}% de acerto`} />
+          <StatCard
+            label="Melhor exame"
+            value={allSessions.length > 0 ? allSessions.reduce((a, b) => a.score > b.score ? a : b).exam_id : '—'}
+            sub={allSessions.length > 0 ? `Score: ${allSessions.reduce((a, b) => a.score > b.score ? a : b).score}%` : ''}
+          />
+        </div>
+
+        {chartData.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <PerformanceChart data={chartData} title="Evolução de scores" />
+            <TopicBreakdown stats={topicStats.slice(0, 5)} title="Desempenho por tópico" />
           </div>
+        )}
 
-          {chartData.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
-              <PerformanceChart data={chartData} title="Evolução de scores — AZ-104" />
-              <TopicBreakdown stats={topicStats.slice(0, 5)} title="Desempenho por tópico" />
-            </div>
-          )}
-
-          <div className="rounded-[10px] p-4.5 border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}>
-            <div className="text-[10px] font-bold uppercase tracking-wider mb-3.5"
-              style={{ color: 'var(--text-faint)' }}>
-              Histórico de simulados
-            </div>
-            <HistoryTable sessions={allSessions} />
+        <div className="glass-card" style={{ padding: '22px' }}>
+          <div className="text-[11px] font-semibold uppercase tracking-wider mb-4"
+            style={{ color: 'var(--text-faint)' }}>
+            Histórico de simulados
           </div>
+          <HistoryTable sessions={allSessions} />
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -23,12 +23,12 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
       {/* Backdrop for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar - always visible on lg+, overlay on mobile */}
+      {/* Sidebar */}
       <div
         className={`
           fixed lg:relative inset-y-0 left-0 z-40
@@ -41,25 +41,25 @@ export default function ResponsiveLayout({ children }: { children: React.ReactNo
 
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-        {/* Header - full width, different content for mobile/desktop */}
-        <header className="flex-shrink-0 bg-[var(--bg-card)] border-b border-[var(--border)] h-14 flex items-center px-4 lg:px-6">
-          {/* Mobile hamburger */}
+        {/* Header — glass */}
+        <header className="flex-shrink-0 glass-surface rounded-none border-0 h-14 flex items-center px-4 lg:px-6"
+          style={{ borderBottom: '1px solid var(--border-subtle)' }}>
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-1.5 -ml-1.5 mr-2 rounded-md hover:bg-[var(--bg-option)] transition-colors"
+            className="lg:hidden p-1.5 -ml-1.5 mr-2 rounded-lg hover:bg-[var(--bg-option-hover)] transition-colors"
             aria-label="Abrir menu"
           >
-            <Bars3Icon className="w-5 h-5 text-[var(--text-primary)]" />
+            <Bars3Icon className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
           </button>
 
-          {/* Title */}
-          <h1 className="text-base font-bold text-[var(--text-primary)] flex-1">{title}</h1>
+          <h1 className="text-[15px] font-semibold tracking-tight flex-1" style={{ color: 'var(--text-primary)' }}>
+            {title}
+          </h1>
 
-          {/* Theme toggle */}
           <ThemeToggle />
         </header>
 
-        {/* Page content - scrollable */}
+        {/* Page content */}
         <div className="flex-1 overflow-auto">
           {children}
         </div>

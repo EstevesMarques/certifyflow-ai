@@ -16,17 +16,6 @@ function GoogleIcon() {
   )
 }
 
-function MicrosoftIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24">
-      <rect x="1" y="1" width="10" height="10" fill="#f25022"/>
-      <rect x="12" y="1" width="10" height="10" fill="#7fba00"/>
-      <rect x="1" y="12" width="10" height="10" fill="#00a4ef"/>
-      <rect x="12" y="12" width="10" height="10" fill="#ffb900"/>
-    </svg>
-  )
-}
-
 function AuthForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -89,32 +78,35 @@ function AuthForm() {
     <div className="flex flex-col justify-center w-full max-w-md mx-auto px-6">
       {/* Logo mobile */}
       <div className="lg:hidden text-center mb-8">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg mx-auto mb-3 text-white"
-          style={{ background: 'linear-gradient(135deg, #0078d4, #50aaff)' }}>
+        <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-xl mx-auto mb-3 text-white"
+          style={{ background: 'var(--accent)' }}>
           C
         </div>
-        <h1 className="text-xl font-bold">CertifyFlow</h1>
+        <h1 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>CertifyFlow</h1>
       </div>
 
       {/* Tabs */}
-      <div className="flex mb-8 bg-[var(--bg-option)] rounded-xl p-1">
+      <div className="flex mb-8 rounded-2xl p-1 glass-surface"
+        style={{ background: 'var(--bg-option)', border: '1px solid var(--border-subtle)' }}>
         <button
           onClick={() => { setTab('login'); setError(''); setMessage('') }}
-          className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all ${
             tab === 'login'
-              ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-sm'
+              ? 'glass-card shadow-sm text-[var(--text-primary)]'
               : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
           }`}
+          style={tab === 'login' ? { borderRadius: '14px' } : {}}
         >
           Entrar
         </button>
         <button
           onClick={() => { setTab('register'); setError(''); setMessage('') }}
-          className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all ${
             tab === 'register'
-              ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-sm'
+              ? 'glass-card shadow-sm text-[var(--text-primary)]'
               : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
           }`}
+          style={tab === 'register' ? { borderRadius: '14px' } : {}}
         >
           Criar conta
         </button>
@@ -124,83 +116,79 @@ function AuthForm() {
       <button
         onClick={handleGoogleSignIn}
         disabled={googleLoading}
-        className="w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-semibold transition-all hover:shadow-md disabled:opacity-50 border mb-6"
-        style={{
-          color: 'var(--text-primary)',
-          background: 'var(--bg-card)',
-          borderColor: 'var(--border)',
-        }}
+        className="w-full flex items-center justify-center gap-3 py-3.5 rounded-2xl text-sm font-semibold transition-all hover:shadow-md disabled:opacity-50 mb-6 glass-card"
+        style={{ color: 'var(--text-primary)' }}
       >
         <GoogleIcon />
-        {googleLoading ? 'Redirecionando...' : `Continuar com Google`}
+        {googleLoading ? 'Redirecionando...' : 'Continuar com Google'}
       </button>
 
       {/* Divider */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
-        <span className="text-xs font-medium" style={{ color: 'var(--text-faint)' }}>ou com email</span>
-        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+        <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
+        <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-faint)' }}>ou com email</span>
+        <div className="flex-1 h-px" style={{ background: 'var(--border-subtle)' }} />
       </div>
 
       {/* Email form */}
       <form onSubmit={handleEmailAuth} className="space-y-4">
         {tab === 'register' && (
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>Nome</label>
+            <label className="text-[11px] font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-faint)' }}>Nome</label>
             <input
               type="text"
               value={fullName}
               onChange={e => setFullName(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#0078d4]/40 border"
-              style={{ background: 'var(--bg-option)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+              className="w-full glass-input text-sm"
+              style={{ borderRadius: 'var(--radius-sm)' }}
               placeholder="Seu nome completo"
             />
           </div>
         )}
 
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>Email</label>
+          <label className="text-[11px] font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-faint)' }}>Email</label>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#0078d4]/40 border"
-            style={{ background: 'var(--bg-option)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+            className="w-full glass-input text-sm"
+            style={{ borderRadius: 'var(--radius-sm)' }}
             placeholder="seu@email.com"
           />
         </div>
 
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-muted)' }}>Senha</label>
+          <label className="text-[11px] font-semibold uppercase tracking-wider block mb-1.5" style={{ color: 'var(--text-faint)' }}>Senha</label>
           <input
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#0078d4]/40 border"
-            style={{ background: 'var(--bg-option)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+            className="w-full glass-input text-sm"
+            style={{ borderRadius: 'var(--radius-sm)' }}
             placeholder="••••••••"
           />
         </div>
 
         {error && (
-          <div className="text-sm text-red-500 bg-red-500/10 px-4 py-3 rounded-xl">{error}</div>
+          <div className="text-sm font-medium px-4 py-3 rounded-2xl" style={{ color: 'var(--accent-danger)', background: 'rgba(229,57,53,0.08)' }}>
+            {error}
+          </div>
         )}
         {message && (
-          <div className="text-sm text-green-500 bg-green-500/10 px-4 py-3 rounded-xl">{message}</div>
+          <div className="text-sm font-medium px-4 py-3 rounded-2xl" style={{ color: 'var(--accent-success)', background: 'rgba(52,168,83,0.08)' }}>
+            {message}
+          </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all hover:scale-[1.01] shadow-lg disabled:opacity-50"
-          style={{
-            background: 'linear-gradient(135deg, #0078d4, #005a9e)',
-            boxShadow: '0 4px 24px rgba(0,120,212,0.25)',
-          }}
+          className="btn-pill w-full py-3.5 text-[15px]"
         >
           {loading
             ? (tab === 'login' ? 'Entrando...' : 'Criando conta...')
@@ -208,16 +196,16 @@ function AuthForm() {
         </button>
       </form>
 
-      <p className="text-xs text-center mt-6" style={{ color: 'var(--text-faint)' }}>
+      <p className="text-[13px] text-center mt-8" style={{ color: 'var(--text-secondary)' }}>
         {tab === 'login' ? (
           <>Ainda não tem conta?{' '}
-            <button onClick={() => setTab('register')} className="font-semibold underline" style={{ color: 'var(--accent)' }}>
+            <button onClick={() => setTab('register')} className="font-semibold" style={{ color: 'var(--text-primary)' }}>
               Cadastre-se grátis
             </button>
           </>
         ) : (
           <>Já tem conta?{' '}
-            <button onClick={() => setTab('login')} className="font-semibold underline" style={{ color: 'var(--accent)' }}>
+            <button onClick={() => setTab('login')} className="font-semibold" style={{ color: 'var(--text-primary)' }}>
               Faça login
             </button>
           </>
@@ -230,23 +218,23 @@ function AuthForm() {
 export default function AuthPage() {
   return (
     <div className="min-h-screen flex">
-      {/* Left — Brand Panel */}
+      {/* Left — Brand Panel (dark, fixed) */}
       <div
         className="hidden lg:flex w-[42%] fixed left-0 top-0 bottom-0 flex-col justify-between p-10"
         style={{ background: 'linear-gradient(160deg, #0a1628 0%, #0d1f3c 30%, #0f2748 60%, #07101e 100%)' }}
       >
         <div>
           <Link href="/" className="flex items-center gap-2.5 mb-20">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-sm text-white"
-              style={{ background: 'linear-gradient(135deg, #0078d4, #50aaff)' }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm text-white"
+              style={{ background: 'linear-gradient(135deg, #3B82F6, #60A5FA)' }}>
               C
             </div>
             <span className="font-bold text-lg tracking-tight text-white">CertifyFlow</span>
           </Link>
 
-          <h2 className="text-3xl font-extrabold leading-tight mb-6 text-white">
+          <h2 className="text-3xl font-extrabold leading-tight mb-6 text-white tracking-tight">
             Domine as certificações Microsoft com{' '}
-            <span style={{ background: 'linear-gradient(135deg, #50aaff, #a0d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(135deg, #60A5FA, #93C5FD)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               prática inteligente
             </span>
           </h2>
@@ -264,7 +252,7 @@ export default function AuthPage() {
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs"
-                  style={{ background: 'rgba(80,170,255,0.15)', color: '#50aaff' }}>
+                  style={{ background: 'rgba(96,165,250,0.15)', color: '#60A5FA' }}>
                   ✓
                 </div>
                 <span className="text-sm" style={{ color: '#8ba4c7' }}>{item}</span>
@@ -274,19 +262,16 @@ export default function AuthPage() {
         </div>
 
         <div className="flex items-center gap-4 text-xs" style={{ color: '#5a7a9e' }}>
-          <div className="flex items-center gap-2">
-            <MicrosoftIcon />
-            <span>Microsoft Partner</span>
-          </div>
+          <span>Microsoft Partner</span>
           <span>•</span>
           <span>SSL Criptografado</span>
         </div>
       </div>
 
-      {/* Right — Auth Form */}
-      <div className="flex-1 lg:ml-[42%] flex items-center justify-center min-h-screen p-4" style={{ background: 'var(--bg-page)' }}>
+      {/* Right — Auth Form on aurora */}
+      <div className="flex-1 lg:ml-[42%] flex items-center justify-center min-h-screen p-4">
         <Suspense fallback={
-          <div className="text-sm" style={{ color: 'var(--text-muted)' }}>Carregando...</div>
+          <div className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>Carregando...</div>
         }>
           <AuthForm />
         </Suspense>

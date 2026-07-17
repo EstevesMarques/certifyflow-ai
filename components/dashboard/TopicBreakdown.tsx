@@ -1,31 +1,31 @@
 import { TopicStat } from '@/types'
 
 function barColor(pct: number) {
-  if (pct < 60) return '#ef4444'
+  if (pct < 60) return 'var(--accent-danger)'
   if (pct < 80) return '#f59e0b'
-  return '#10b981'
+  return 'var(--accent-success)'
 }
 
 export default function TopicBreakdown({ stats, title }: { stats: TopicStat[]; title: string }) {
   return (
-    <div className="rounded-[10px] border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)', padding: '18px', boxShadow: 'var(--shadow)' }}>
-      <div className="text-[12px] font-bold uppercase tracking-wider mb-3.5"
-        style={{ color: 'var(--text-secondary)' }}>
+    <div className="glass-card" style={{ padding: '22px' }}>
+      <div className="text-[11px] font-semibold uppercase tracking-wider mb-4"
+        style={{ color: 'var(--text-faint)' }}>
         {title}
       </div>
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {stats.map((s) => (
-          <div key={s.topic_tag} className="flex items-center gap-2.5">
-            <span className="text-[13px] w-32 flex-shrink-0 truncate" style={{ color: 'var(--text-secondary)' }}>
+          <div key={s.topic_tag} className="flex items-center gap-3">
+            <span className="text-[13px] w-36 flex-shrink-0 truncate font-medium" style={{ color: 'var(--text-secondary)' }}>
               {s.topic_tag}
             </span>
-            <div className="flex-1" style={{ height: '8px', background: 'var(--progress-bg)', borderRadius: '99px' }}>
+            <div className="flex-1 h-2 rounded-full" style={{ background: 'var(--progress-bg)' }}>
               <div
-                className="transition-all"
-                style={{ width: `${s.pct}%`, height: '8px', background: barColor(s.pct), borderRadius: '99px' }}
+                className="h-2 rounded-full transition-all duration-500"
+                style={{ width: `${s.pct}%`, background: barColor(s.pct) }}
               />
             </div>
-            <span className="text-[12px] w-8 text-right" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-[12px] w-9 text-right font-semibold" style={{ color: 'var(--text-muted)' }}>
               {s.pct}%
             </span>
           </div>

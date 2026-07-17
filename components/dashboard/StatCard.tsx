@@ -7,22 +7,24 @@ interface StatCardProps {
 
 export default function StatCard({ label, value, sub, accent }: StatCardProps) {
   return (
-    <div
-      className="rounded-[10px] border"
-      style={{ background: 'var(--bg-card)', borderColor: 'var(--border)', padding: '16px 18px', boxShadow: 'var(--shadow)' }}
-    >
-      <div className="text-[11px] font-bold uppercase tracking-wider mb-1.5"
-        style={{ color: 'var(--text-muted)' }}>
+    <div className="glass-card" style={{ padding: '20px 22px' }}>
+      <div className="text-[10px] font-semibold uppercase tracking-wider mb-2"
+        style={{ color: 'var(--text-faint)' }}>
         {label}
       </div>
       <div
-        className="leading-none"
-        style={{ fontSize: '26px', fontWeight: '800', color: accent ? 'var(--accent)' : 'var(--text-primary)' }}
+        className="leading-none tracking-tight"
+        style={{
+          fontSize: '30px',
+          fontWeight: '700',
+          color: accent ? 'var(--accent-success)' : 'var(--text-primary)',
+          letterSpacing: '-0.02em',
+        }}
       >
         {value}
       </div>
       {sub && (
-        <div className="text-[11px] mt-1" style={{ color: 'var(--text-faint)' }}>{sub}</div>
+        <div className="text-[11px] mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>{sub}</div>
       )}
     </div>
   )

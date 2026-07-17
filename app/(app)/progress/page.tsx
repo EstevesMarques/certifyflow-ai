@@ -27,7 +27,6 @@ export default function ProgressPage() {
 
       setSessions(sessionData ?? [])
 
-      // Calculate overall topic stats
       const { data: attempts } = await supabase
         .from('question_attempts')
         .select('topic_tag, is_correct')
@@ -64,16 +63,16 @@ export default function ProgressPage() {
 
   if (loading) {
     return (
-      <div className="p-6 flex items-center justify-center min-h-screen">
-        <p style={{ color: 'var(--text-muted)' }}>Carregando progresso...</p>
+      <div className="p-8 flex items-center justify-center min-h-screen">
+        <p className="text-[14px] font-medium" style={{ color: 'var(--text-muted)' }}>Carregando progresso...</p>
       </div>
     )
   }
 
   return (
-    <div className="p-4 lg:p-6">
-      <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Meu Progresso</h1>
-      <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
+    <div className="p-6 lg:p-8">
+      <h1 className="text-2xl font-bold tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>Meu Progresso</h1>
+      <p className="text-[14px] mb-8" style={{ color: 'var(--text-secondary)' }}>
         Acompanhe seu desempenho em cada tópico e simulado realizado.
       </p>
 
@@ -83,10 +82,10 @@ export default function ProgressPage() {
         )}
 
         <div>
-          <h2 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>
+          <h2 className="text-[11px] font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-faint)' }}>
             Histórico de Simulados
           </h2>
-          <div className="rounded-[10px] border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border)', padding: '18px' }}>
+          <div className="glass-card" style={{ padding: '22px' }}>
             <HistoryTable sessions={sessions} />
           </div>
         </div>

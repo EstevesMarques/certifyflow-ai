@@ -12,12 +12,6 @@ import type { Exam, SkillItem } from '@/types'
 
 const QUESTION_OPTIONS = [10, 20, 40]
 
-const LEVEL_BADGE_VARIANT = {
-  Fundamentals: 'outline' as const,
-  Associate: 'secondary' as const,
-  Expert: 'destructive' as const,
-}
-
 export default function ExamDetailPage() {
   const { examId } = useParams<{ examId: string }>()
   const [exam, setExam] = useState<Exam | null>(null)
@@ -26,7 +20,6 @@ export default function ExamDetailPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Use skills_measured from DB; fall back to static EXAM_TOPICS if empty
   const dbSkills = exam?.skills_measured as SkillItem[] | undefined
   const topics: SkillItem[] = (dbSkills && dbSkills.length > 0)
     ? dbSkills
@@ -84,20 +77,16 @@ export default function ExamDetailPage() {
       {/* Back link */}
       <Link
         href="/catalog"
-        className="inline-flex items-center gap-1 text-sm transition-colors mb-6 block"
-        style={{ color: 'var(--accent)' }}
+        className="inline-flex items-center gap-1.5 text-[14px] font-medium transition-colors mb-6"
+        style={{ color: 'var(--text-secondary)' }}
       >
         ← Voltar ao Catálogo
       </Link>
 
-      {/* Three-column layout with full-width header */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Header - full width (col-span-3) */}
+        {/* Header */}
         <div className="lg:col-span-3">
-          <div
-            className="rounded-2xl shadow-sm border p-8 space-y-4"
-            style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-          >
+          <div className="glass-card p-8 space-y-4">
             <div className="flex items-start justify-between gap-6 flex-wrap">
               <div className="flex items-start gap-5">
                 {exam?.icon_url && (
@@ -110,16 +99,16 @@ export default function ExamDetailPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     {exam?.display_name && (
-                      <span className="text-sm font-bold tracking-wide" style={{ color: 'var(--accent)' }}>
+                      <span className="text-sm font-bold tracking-wide" style={{ color: 'var(--text-primary)' }}>
                         {exam.display_name}
                       </span>
                     )}
-                    <Badge variant={exam ? LEVEL_BADGE_VARIANT[exam.level] ?? 'outline' : 'outline'}>
+                    <Badge variant={exam?.level === 'Expert' ? 'destructive' : exam?.level === 'Associate' ? 'secondary' : 'success'}>
                       {exam?.level ?? 'N/A'}
                     </Badge>
                     {exam?.is_beta && <Badge variant="destructive">Beta</Badge>}
                   </div>
-                  <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+                  <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-2 tracking-tight" style={{ color: 'var(--text-primary)' }}>
                     {examTitle}
                   </h1>
                   {exam?.subtitle && (
@@ -135,10 +124,10 @@ export default function ExamDetailPage() {
                     href={exam.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border transition-colors"
+                    className="flex items-center gap-2 text-[13px] font-medium px-4 py-2.5 rounded-[var(--radius-sm)] border transition-colors hover:bg-[var(--bg-option-hover)]"
                     style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
                   >
-                    <ExternalLink size={15} style={{ color: 'var(--accent)' }} />
+                    <ExternalLink size={15} style={{ color: 'var(--text-secondary)' }} />
                     Ver no Microsoft Learn
                   </a>
                 )}
@@ -147,10 +136,10 @@ export default function ExamDetailPage() {
                     href={exam.pdf_download_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border transition-colors"
+                    className="flex items-center gap-2 text-[13px] font-medium px-4 py-2.5 rounded-[var(--radius-sm)] border transition-colors hover:bg-[var(--bg-option-hover)]"
                     style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
                   >
-                    <Download size={15} style={{ color: 'var(--accent)' }} />
+                    <Download size={15} style={{ color: 'var(--text-secondary)' }} />
                     Baixar skills (PDF)
                   </a>
                 )}
@@ -159,37 +148,33 @@ export default function ExamDetailPage() {
           </div>
         </div>
 
-        {/* Left column - Skills (col-span-2) */}
+        {/* Left — Skills */}
         <div className="lg:col-span-2">
-          {/* Topics section */}
           {topics.length > 0 && (
-            <div
-              className="rounded-2xl shadow-sm border p-6 space-y-5"
-              style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
-            >
-              <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
+            <div className="glass-card p-6 space-y-5">
+              <h2 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-faint)' }}>
                 Conteúdos cobrados
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {topics.map((section, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border p-4 space-y-2"
-                    style={{ background: 'var(--bg-page)', borderColor: 'var(--border)' }}
+                    className="rounded-[var(--radius-sm)] border p-4 space-y-2"
+                    style={{ background: 'var(--bg-option)', borderColor: 'var(--border-subtle)' }}
                   >
-                    <div className="font-semibold text-base" style={{ color: 'var(--text-primary)' }}>
+                    <div className="font-semibold text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>
                       {section.topic}
                       {section.weight && (
-                        <span className="ml-2 text-xs font-normal" style={{ color: 'var(--text-muted)' }}>
+                        <span className="ml-2 text-xs font-medium" style={{ color: 'var(--text-faint)' }}>
                           {section.weight}%
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-col gap-2 pl-1">
+                    <div className="flex flex-col gap-2 pl-0.5">
                       {section.subtopics.map((sub) => (
                         <div key={sub} className="flex items-center gap-2">
-                          <CheckCircle2 size={14} style={{ color: 'var(--accent)' }} />
-                          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          <CheckCircle2 size={14} style={{ color: 'var(--text-faint)' }} />
+                          <span className="text-[13px]" style={{ color: 'var(--text-secondary)' }}>
                             {sub}
                           </span>
                         </div>
@@ -202,17 +187,17 @@ export default function ExamDetailPage() {
           )}
         </div>
 
-        {/* Right column - Sticky CTA (col-span-1) */}
+        {/* Right — CTA */}
         <div className="lg:col-span-1">
           <div
-            className="sticky top-24 rounded-2xl shadow-lg border p-8 space-y-6"
+            className="sticky top-24 rounded-[var(--radius-card)] shadow-lg border-0 p-8 space-y-6"
             style={{ background: 'var(--accent)' }}
           >
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold" style={{ color: '#fff' }}>
+              <h3 className="text-2xl font-bold tracking-tight" style={{ color: '#fff' }}>
                 Pronto para começar?
               </h3>
-              <div className="text-sm font-medium mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              <div className="text-sm font-medium mb-3" style={{ color: 'rgba(255,255,255,0.85)' }}>
                 Número de questões
               </div>
               <div className="flex gap-2">
@@ -220,7 +205,7 @@ export default function ExamDetailPage() {
                   <button
                     key={q}
                     onClick={() => setTotalQ(q)}
-                    className="flex-1 h-12 rounded-xl text-base font-medium border transition-all"
+                    className="flex-1 h-12 rounded-[var(--radius-sm)] text-base font-medium border transition-all"
                     style={{
                       borderColor: totalQ === q ? '#fff' : 'rgba(255,255,255,0.3)',
                       background: totalQ === q ? 'rgba(255,255,255,0.25)' : 'transparent',
@@ -239,14 +224,14 @@ export default function ExamDetailPage() {
               </p>
             )}
 
-            <Button
+            <button
               onClick={startExam}
               disabled={loading}
-              className="w-full h-14 text-base font-semibold"
+              className="w-full h-14 text-base font-semibold rounded-[var(--radius-pill)] transition-all hover:scale-[1.02] disabled:opacity-50"
               style={{ background: '#fff', color: 'var(--accent)' }}
             >
               {loading ? 'Criando sessão...' : 'Iniciar Simulado'}
-            </Button>
+            </button>
           </div>
         </div>
       </div>
