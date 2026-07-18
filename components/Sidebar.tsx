@@ -75,7 +75,9 @@ export default function Sidebar() {
       <nav className="flex-1 flex flex-col">
         <div className="flex-1 py-2">
           {navItems.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = item.href === '/admin/exams'
+              ? pathname.startsWith('/admin/exams')
+              : pathname === item.href
             return (
               <Link
                 key={item.href}

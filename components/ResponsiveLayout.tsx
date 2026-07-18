@@ -13,10 +13,17 @@ const pageTitles: Record<string, string> = {
   '/settings': 'Configurações',
 }
 
+function getPageTitle(pathname: string): string {
+  if (pageTitles[pathname]) return pageTitles[pathname]
+  if (pathname.startsWith('/admin/exams')) return 'Gerenciar Exames'
+  if (pathname.startsWith('/exam/')) return 'Simulado'
+  return 'CertifyFlow'
+}
+
 export default function ResponsiveLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
-  const title = pageTitles[pathname] || 'CertifyFlow'
+  const title = getPageTitle(pathname)
 
   return (
     <div className="flex h-screen overflow-hidden">
